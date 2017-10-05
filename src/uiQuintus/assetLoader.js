@@ -3,15 +3,12 @@ import {Q} from 'qObject'
 
 import exampleImage from 'assets/images/example.png'
 import groundImage from 'assets/images/ground-32x32.png'
-// import groundSheet from 'assets/images/ground_4_32x32.png'
-
-
 import tileSheet from 'assets/images/ground_4_32x32.png'
 import tileData from 'assets/json/tiles.json'
 
 export class AssetLoader {
   constructor(props) {
-		this.onFinish
+		this.callback = props.callback
 		this.assets = {}
 		this.assets["exampleImage"] = exampleImage
 		this.assets["groundImage"] = groundImage
@@ -19,61 +16,48 @@ export class AssetLoader {
 		this.assets["tileData"] = tileData
   }	
 
-	setOnFinish(props) {
-		this.onFinish = props.callback
+	
+	start() {
+		this.preload()
 	}
 
-	startLoading(props) {
+	preload(props) {
 		let self = this
-
-
-
-
-		logger.log("Loading image: " + exampleImage)
-		Q.preload(exampleImage)
-		
-		logger.log("Loading image: " + groundImage)
-		Q.preload(groundImage)
-
-		logger.log("Loading image: " + tileSheet)
-		Q.preload(tileSheet)
-
-		logger.log("Loading json: " + tileData)
-		Q.preload(tileData)
-
+		for (let i in this.assets) {
+			let asset = this.assets[i]
+			logger.log("Loading image: " + asset)
+			Q.preload(asset)
+		}
 
 		Q.preload(function() {
-			logger.log("Preload finished")
-
-			Q.sheet("tiles",
-	        tileSheet,
-	        {
-	          tilew: 32,
-	          tileh: 32,
-						w: 128,
-						h: 32,
-						cols: 4,
-	          sx: 0,   // start the sprites at x=0
-	          sy: 0    // and y=0
-	         }
-				 );
-
-
-
-			Q.Sprite.extend("Ground", {
-			  init: function(p) {
-			    this._super({
-			      asset: groundImage,
-						scale: 1,
-						w: 32,
-						h: 32
-			    });
-			  }
-			});
-			
-			self.onFinish()
+			logger.log("Preload finished.")
+			self.createSpriteSheets()
 		})
+	}
+
+	createSpriteSheets() {
+		logger.log("Creating sprite sheets..")
+
+		Q.sheet("TILES", tileSheet,
+				    {
+				      tilew: 32,
+				      tileh: 32,
+							w: 128,
+							h: 32,
+							cols: 4,
+				      sx: 0,   // start the sprites at x=0
+				      sy: 0    // and y=0
+				     }
+		);
 		
+		this.onFinish()
+	}
+
+	onFinish() {
+		console.log(":: AssetLoader")
+		console.dir(this.callback)
+		
+		this.callback({assets: this.assets})
 	}
 	
 }
