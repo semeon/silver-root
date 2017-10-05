@@ -1,0 +1,31 @@
+{
+  "name": "silver-root",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack",
+    "deploy": "webpack --config webpack.production.config.js",
+    "test": "eslint ./src/**/**.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.20.0",
+    "babel-preset-env": "^1.6.0",
+    "browser-sync": "^2.18.6",
+    "browser-sync-webpack-plugin": "^1.1.3",
+    "expose-loader": "^0.7.1",
+    "file-loader": "^1.1.4",
+    "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "chance": "^1.0.8",
+    "pathfinding": "^0.4.18",
+    "quintus": "github:seanewest/quintus",
+    "stage-js": "^0.8.9",
+    "webfontloader": "^1.6.27"
+  }
+}
