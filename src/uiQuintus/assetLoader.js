@@ -1,49 +1,84 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-// import tiles from 'assets/images/tiles.png'
-// import level from 'assets/json/level.json'
+// Environment assets
+import envDesertImg from 'assets/ui/env/desert.png'
+import envDesertDataL from 'assets/ui/env/desert_L.json'
+import envDesertDataM from 'assets/ui/env/desert_M.json'
+import envDesertDataS from 'assets/ui/env/desert_S.json'
+import envDesertDataXS from 'assets/ui/env/desert_XS.json'
 
-import playerImg from 'assets/images/droid_32x32.png'
+// Player assets
+import playerImg from 'assets/ui/player/droid_32x32.png'
 
-import tileSheet from 'assets/images/desert_sheet.png'
-import tileData from 'assets/json/ground.json'
-
-import spritesImg from 'assets/images/sprites.png'
-import spritesData from 'assets/json/sprites.json'
+// Area Obect Assets
 
 
 export class AssetLoader {
   constructor(props) {
-		this.callback = props.callback
+		this.session
 		this.assets = {}
-
-		// this.assets["tiles"] = tiles
-		// this.assets["level"] = level
-
-		this.assets["playerImg"] = playerImg
-
-		this.assets["tileSheet"] = tileSheet
-		this.assets["tileData"] = tileData
-
-		this.assets["spritesImg"] = spritesImg
-		this.assets["spritesData"] = spritesData
-
+		this.callback = props.callback
   }	
 
+	setSession(props) {
+		this.session = props.session
+	}
 	
 	start() {
+		this.prepareAssets()
 		this.preload()
 	}
 
+	prepareAssets() {
+		let locData = this.session.currentLocation
+		let environment = locData.environment
+		let areaSize = locData.areaSize
+		
+		switch(environment) {
+		    case "desert":
+					this.assets["envImg"] = envDesertImg
+	        break
+
+		    default:
+					this.assets["envImg"] = envDesertImg
+		}
+
+
+		switch(areaSize) {
+	    case "XS":
+				this.assets["envData"] = envDesertDataXS
+	      break
+
+	    case "S":
+				this.assets["envData"] = envDesertDataS
+        break
+
+	    case "M":
+				this.assets["envData"] = envDesertDataM
+        break
+
+	    case "L":
+				this.assets["envData"] = envDesertDataL
+        break
+
+	    default:
+				this.assets["envData"] = envDesertDataM
+		}
+
+		this.assets["playerImg"] = playerImg
+		
+	}
+
+
 	preload(props) {
 		let self = this
+
 		for (let i in this.assets) {
 			let asset = this.assets[i]
-			logger.log("Loading image: " + asset)
+			logger.log("Loading asset: " + asset)
 			Q.preload(asset)
 		}
-	
 
 		Q.preload(function() {
 			logger.log("Preload finished.")
@@ -54,28 +89,25 @@ export class AssetLoader {
 	createSpriteSheets() {
 		logger.log("Creating sprite sheets..")
 
-		Q.compileSheets(spritesImg, spritesData);
-
-		// Q.sheet("tiles", tiles, { tilew: 32, tileh: 32 });
+		Q.sheet("environment", this.assets["envImg"], {
+	      tilew: 32,
+	      tileh: 32,
+				w: 160,
+				h: 96,
+				cols: 5,
+				spacingX: 0, // - spacing between each tile x (after 1st)
+				spacingY: 0, // - spacing between each tile y
+				marginX: 0, // - margin around each tile x
+				marginY: 0, // - margin around each tile y							
+	      sx: 0,   // start the sprites at x=0
+	      sy: 0    // and y=0
+    });
 
 		Q.sheet("Player", playerImg, { 
 			tilew: 32, 
 			tileh: 32 
 		});
 
-		Q.sheet("Desert", tileSheet, {
-	      tilew: 33,
-	      tileh: 33,
-				w: 265,
-				h: 199,
-				cols: 8,
-				spacingX: 0, // - spacing between each tile x (after 1st)
-				spacingY: 0, // - spacing between each tile y
-				marginX: 1, // - margin around each tile x
-				marginY: 1, // - margin around each tile y							
-	      sx: 1,   // start the sprites at x=0
-	      sy: 1    // and y=0
-    });
 		
 		this.onFinish()
 	}

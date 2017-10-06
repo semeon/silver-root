@@ -12,7 +12,6 @@ class App {
 		logger.log("App initialized.")
 		
 		this.ui = new UI()
-		// this.ui.init()
   }	
 	
 	start(props) {

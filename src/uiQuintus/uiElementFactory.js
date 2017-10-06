@@ -3,7 +3,6 @@ import {Q} from 'qObject'
 
 export class UiElementFactory {
   constructor(props) {
-	  this.callback = props.callback
 		this.assets
   }	
 
@@ -25,13 +24,6 @@ export class UiElementFactory {
 		    this.add('stepControls')
 		  }
 		})
-	
-		this.onFinish()
-	}
-
-	onFinish(props) {
-
-		// this.callback({assets: this.assets})
 	}
 
 	

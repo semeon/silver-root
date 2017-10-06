@@ -14,16 +14,14 @@ export class UI {
 
 		// logger.log("Quintus started.")
 		this.sceneBuilder = new SceneBuilder()
-		// this.uiFactory = new UiElementFactory({ callback: this.sceneBuilder.start.bind(this.sceneBuilder) })
-		// this.assetLoader = new AssetLoader({ callback: this.uiFactory.start.bind(this.uiFactory) })
-
-		this.uiFactory = new UiElementFactory({ callback: this.sceneBuilder.start.bind(this.sceneBuilder) })
+		this.uiFactory = new UiElementFactory()
 		this.assetLoader = new AssetLoader({ callback: this.sceneBuilder.start.bind(this.sceneBuilder) })
 
   }	
 
 
 	launch(props) {
+		this.assetLoader.setSession({session: props.session})
 		this.sceneBuilder.setSession({session: props.session})
 		this.uiFactory.start()
 		this.assetLoader.start()

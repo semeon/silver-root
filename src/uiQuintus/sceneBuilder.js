@@ -36,8 +36,8 @@ export class SceneBuilder {
 							blockTileW: 8,  // Default pre-render size
 							blockTileH: 6,
 							type: Q.SPRITE_DEFAULT, // Default type (for collisions)
-							dataAsset: assets["tileData"],
-							sheet: "Desert"
+							dataAsset: assets["envData"],
+							sheet: "environment"
 						})
 		
 		let playerSprite = new Q.Player()

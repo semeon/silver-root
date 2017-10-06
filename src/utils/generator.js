@@ -48,8 +48,37 @@ class Generator {
 			id += this.getCount()
 		}
 		
-		let height = 12
-		let width = 12
+		let areaSize = "L"
+		
+		let height
+		let width
+
+		switch(areaSize) {
+	    case "XS":
+				width = 12
+				height = 9
+	      break
+				
+	    case "S":
+				width = 16
+				height = 12
+        break
+
+	    case "M":
+				width = 20
+				height = 15
+        break
+
+	    case "L":
+				width = 24
+				height = 18
+        break
+
+	    default:
+				width = 20
+				height = 15
+		}
+		
 		let name = chance.city()
 
 		let allObjects = []
@@ -84,6 +113,10 @@ class Generator {
 		let loc = {
 			id: id,
 			name: name,
+			
+			environment: "desert",
+			areaSize: areaSize,
+			
 			height: height,
 			width: width,
 			
