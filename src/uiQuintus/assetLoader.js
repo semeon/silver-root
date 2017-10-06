@@ -1,19 +1,34 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-import exampleImage from 'assets/images/example.png'
-import groundImage from 'assets/images/ground-32x32.png'
-import tileSheet from 'assets/images/ground_4_32x32.png'
-import tileData from 'assets/json/tiles.json'
+// import tiles from 'assets/images/tiles.png'
+// import level from 'assets/json/level.json'
+
+import playerImg from 'assets/images/droid_32x32.png'
+
+import tileSheet from 'assets/images/desert_sheet.png'
+import tileData from 'assets/json/ground.json'
+
+import spritesImg from 'assets/images/sprites.png'
+import spritesData from 'assets/json/sprites.json'
+
 
 export class AssetLoader {
   constructor(props) {
 		this.callback = props.callback
 		this.assets = {}
-		this.assets["exampleImage"] = exampleImage
-		this.assets["groundImage"] = groundImage
+
+		// this.assets["tiles"] = tiles
+		// this.assets["level"] = level
+
+		this.assets["playerImg"] = playerImg
+
 		this.assets["tileSheet"] = tileSheet
 		this.assets["tileData"] = tileData
+
+		this.assets["spritesImg"] = spritesImg
+		this.assets["spritesData"] = spritesData
+
   }	
 
 	
@@ -28,6 +43,7 @@ export class AssetLoader {
 			logger.log("Loading image: " + asset)
 			Q.preload(asset)
 		}
+	
 
 		Q.preload(function() {
 			logger.log("Preload finished.")
@@ -38,17 +54,28 @@ export class AssetLoader {
 	createSpriteSheets() {
 		logger.log("Creating sprite sheets..")
 
-		Q.sheet("TILES", tileSheet,
-				    {
-				      tilew: 32,
-				      tileh: 32,
-							w: 128,
-							h: 32,
-							cols: 4,
-				      sx: 0,   // start the sprites at x=0
-				      sy: 0    // and y=0
-				     }
-		);
+		Q.compileSheets(spritesImg, spritesData);
+
+		// Q.sheet("tiles", tiles, { tilew: 32, tileh: 32 });
+
+		Q.sheet("Player", playerImg, { 
+			tilew: 32, 
+			tileh: 32 
+		});
+
+		Q.sheet("Desert", tileSheet, {
+	      tilew: 33,
+	      tileh: 33,
+				w: 265,
+				h: 199,
+				cols: 8,
+				spacingX: 0, // - spacing between each tile x (after 1st)
+				spacingY: 0, // - spacing between each tile y
+				marginX: 1, // - margin around each tile x
+				marginY: 1, // - margin around each tile y							
+	      sx: 1,   // start the sprites at x=0
+	      sy: 1    // and y=0
+    });
 		
 		this.onFinish()
 	}

@@ -17,6 +17,8 @@ export class SceneBuilder {
 	start(props) {
 		logger.log("Scene Builder started.")
 		this.assets = props.assets
+		
+		console.dir(this.assets)
 
 		this.initScene()
 		this.startScene()
@@ -25,31 +27,25 @@ export class SceneBuilder {
 
 
 	initScene(props) {
-		let self = this
+
+		let assets = this.assets
+
+		let groundLayer = new Q.TileLayer({
+							tileW: 32,  // Default tile width
+							tileH: 32,  // Default tile height
+							blockTileW: 8,  // Default pre-render size
+							blockTileH: 6,
+							type: Q.SPRITE_DEFAULT, // Default type (for collisions)
+							dataAsset: assets["tileData"],
+							sheet: "Desert"
+						})
 		
-		// logger.log("Building location area...")
-		// let locData = props.data
-		//
-		// logger.log("Location name: " + locData.name + " (" + locData.id + ")")
-		
-		
+		let playerSprite = new Q.Player()
 
 		Q.scene("mainScene",function(stage) {
-			stage.collisionLayer(
-				new Q.TileLayer({
-								dataAsset: self.assets["tileData"],
-								sheet: "TILES"
-							})
-			)
-
-			stage.add("viewport")
-
-		  var label = stage.insert(new Q.UI.Text({
-		    x: Q.width/2,
-		    y: Q.height/2,
-		    label: stage.options.label
-		  }))
-			
+			stage.insert(groundLayer)
+			var player = stage.insert(new Q.Player())
+			stage.add("viewport").follow(player)
 		});
 	}
 
@@ -62,3 +58,4 @@ export class SceneBuilder {
 	}
 	
 }
+
