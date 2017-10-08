@@ -1,5 +1,10 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
+import './sprites/_defCustomSprite.js'
+
+import './sprites/areaObjects.js'
+import './sprites/player.js'
+
 
 export class UiElementFactory {
   constructor(props) {
@@ -12,18 +17,6 @@ export class UiElementFactory {
 
 		// create UI item classes here
 
-		Q.Sprite.extend("Player",{
-		  init: function(p) {
-		    this._super(p, { 
-					sheet: "Player", 
-					x: 17, 
-					y: 16,
-					stepDistance: 32,
-					stepDelay: 0.2
-				})
-		    this.add('stepControls')
-		  }
-		})
 	}
 
 	

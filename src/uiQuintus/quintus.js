@@ -20,4 +20,8 @@ let setup = {
 	scaleToFit: false
 }
 
-export let Q = Quintus(options).include("Sprites, Scenes, Input, Touch, UI, 2D").setup("gameUi", setup).controls().touch()
+export let Q = Quintus(options).include("Sprites, Scenes, Input, Touch, UI, 2D").setup("gameUi", setup).touch(0xFFFF)
+
+Q.CONST = {
+	tileSize: 32
+}

@@ -17,12 +17,8 @@ export class SceneBuilder {
 	start(props) {
 		logger.log("Scene Builder started.")
 		this.assets = props.assets
-		
-		console.dir(this.assets)
-
 		this.initScene()
 		this.startScene()
-		
 	}
 
 
@@ -35,17 +31,31 @@ export class SceneBuilder {
 							tileH: 32,  // Default tile height
 							blockTileW: 8,  // Default pre-render size
 							blockTileH: 6,
-							type: Q.SPRITE_DEFAULT, // Default type (for collisions)
+							type: Q.SPRITE_NONE, // Default type (for collisions)
 							dataAsset: assets["envData"],
 							sheet: "environment"
 						})
 		
-		let playerSprite = new Q.Player()
+		
+		logger.log("CREATING INSTANCES")
+		
+		let playerSprite = new Q.PlayerSprite()
+		playerSprite.p.x = 32*5 + 16
+		playerSprite.p.y = 16
+		playerSprite.linkModel({model: "model!!"})
+						
+
+		let bushSprite = new Q.SpriteBush_1()
+		bushSprite.p.x = 49
+		bushSprite.p.y = 48
+		bushSprite.linkModel({model: "model!!"})
 
 		Q.scene("mainScene",function(stage) {
 			stage.insert(groundLayer)
-			var player = stage.insert(new Q.Player())
+			var bush = stage.insert(bushSprite)
+			var player = stage.insert(playerSprite)
 			stage.add("viewport").follow(player)
+
 		});
 	}
 

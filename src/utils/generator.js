@@ -48,7 +48,7 @@ class Generator {
 			id += this.getCount()
 		}
 		
-		let areaSize = "L"
+		let areaSize = "S"
 		
 		let height
 		let width
