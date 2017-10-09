@@ -11,6 +11,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	
   onTouch(col) {
  		logger.log("Custom Sprite Touch: " + this.p.name)
+		this.stage.context.marker.hide()		
  		// console.log(col)
  		// console.dir("this.p.model")
  		// console.dir(this.p.model)
@@ -18,6 +19,11 @@ Q.SpriteCustom = class extends Q.Sprite {
 
 	linkModel(props) {
 		this.p.model = props.model
+	}
+
+	moveTo(props) {
+		this.p.x = props.x
+		this.p.y = props.y		
 	}
 
 }

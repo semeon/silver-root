@@ -13,7 +13,7 @@ export class UiElementFactory {
 
 
 	createGroundLayer(props) {
-		let groundLayer = new Q.TileLayerCustom({
+		let groundLayer = new Q.TileLayer({
 			tileW: Q.CONST.tileSize,  // Default tile width
 			tileH: Q.CONST.tileSize,  // Default tile height
 			blockTileW: 8,  // Default pre-render size
@@ -22,11 +22,7 @@ export class UiElementFactory {
 			dataAsset: props.asset,
 			sheet: "environment"
 		})
-		
-		// groundLayer.on("click", this, function() {
-		// 	console.log("FFFFFFUUUUUUUUUUU")
-		// })
-		
+
 		return groundLayer
 	}
 
@@ -68,20 +64,23 @@ export class UiElementFactory {
 		    default:
 					sprite = null
 			}
-
-			sprite.p.x = this.calcCoordinate(model.x)
-			sprite.p.y = this.calcCoordinate(model.y)
+			
+			sprite.moveTo({x:this.calcCoordinate(model.x), y:this.calcCoordinate(model.y)})
 			sprite.linkModel({model: model})
 
 			result.push(sprite)
 		}
 		return result
 	}
-	
-	
-	createPlayer(props) {
-		
+
+
+	createMarker(props)	{
+		let marker = new Q.SpriteMarker()
+		marker.moveTo({x:this.calcCoordinate(0), y:this.calcCoordinate(0)})
+		marker.hide()
+		return marker
 	}
+	
 
 	calcCoordinate(prop) {
 		let result = prop * Q.CONST.tileSize + Q.CONST.tileSize/2

@@ -47,23 +47,26 @@ export class SceneBuilder {
 		// console.dir(terrain)
 
 
-		// Ground Layer
-		// let groundLayer = this.uiFactory.createGroundLayer({asset: assets["envData"]})
-		// console.dir(groundLayer)
-
 		let groundTiles = this.uiFactory.createGround({w: locData.width, h: locData.height})
 		// console.dir(groundTiles)
 
+		let marker = this.uiFactory.createMarker()
+		console.dir(marker)
 
 		Q.scene("mainScene", function(stage) {
+
+			stage.context = {}
+			stage.context.marker = marker
+
+			console.dir(stage)
 			
 			// Order is important for displaying the sprites!
-
-			// stage.insert(groundLayer)
 
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
 			let player = stage.insert(playerSprite)
+
+			stage.insert(marker)
 
 			stage.add("viewport") //.follow(player)
 

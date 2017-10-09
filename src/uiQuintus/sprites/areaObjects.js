@@ -1,7 +1,32 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-Q.SpriteBush_1 = class extends Q.SpriteCustom {
+
+Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
+	constructor(p) {
+		if (!p) p = {
+			sheet: "Bush_1"			
+		}
+		super(p)
+	}
+
+	onTouch(col) {
+		super.onTouch(col)
+
+		this.stage.context.marker.hide()
+		this.stage.context.marker.p.frame = 1
+		this.stage.context.marker.moveTo({x: this.p.x, y: this.p.y})
+		this.stage.context.marker.show()
+	}
+
+}
+
+
+
+
+
+
+Q.SpriteBush_1 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
 		let p = {
 			name: "Bush",
@@ -12,7 +37,7 @@ Q.SpriteBush_1 = class extends Q.SpriteCustom {
 }
 
 
-Q.SpriteBush_2 = class extends Q.SpriteCustom {
+Q.SpriteBush_2 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
 		let p = {
 			name: "Bush",
@@ -23,7 +48,7 @@ Q.SpriteBush_2 = class extends Q.SpriteCustom {
 }
 
 
-Q.SpriteRock_1 = class extends Q.SpriteCustom {
+Q.SpriteRock_1 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
 		let p = {
 			name: "Rock",

@@ -10,34 +10,14 @@ Q.SpriteGroundTile_1 = class extends Q.SpriteCustom {
 		}
 		super(p)
 	}
+
+  onTouch(col) {
+		super.onTouch(col)
+
+		this.stage.context.marker.hide()
+		this.stage.context.marker.p.frame = 0
+		this.stage.context.marker.moveTo({x: this.p.x, y: this.p.y})
+		this.stage.context.marker.show()
+  }
+	
 }
-
-Q.TileLayer.extend("TileLayerCustom", {
-  init: function(p) {
-    this._super(p)
-		this.on("touch", this, function(col) {console.log("RRRRRRRRRRRRRRR") })
-	} 
-})
-
-// createGroundLayer(props) {
-// 	let groundLayer = new Q.TileLayer({
-// 		tileW: Q.CONST.tileSize,  // Default tile width
-// 		tileH: Q.CONST.tileSize,  // Default tile height
-// 		blockTileW: 8,  // Default pre-render size
-// 		blockTileH: 6,
-// 		type: Q.SPRITE_NONE, // Default type (for collisions)
-// 		dataAsset: props.asset,
-// 		sheet: "environment"
-// 	})
-// 	return groundLayer
-// }
-//
-// Q.SpriteBush_1 = class extends Q.SpriteCustom {
-// 	constructor(props) {
-// 		let p = {
-// 			sheet: "Bush_1",
-// 		}
-// 		super(p)
-// 	}
-// }
-//

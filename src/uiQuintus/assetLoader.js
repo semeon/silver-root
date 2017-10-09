@@ -24,6 +24,10 @@ import aoDesertBush6Img from 'assets/ui/env/desert/desert_object_cactus.png'
 
 import aoDesertRock1Img from 'assets/ui/env/desert/desert_object_rock.png'
 
+// User Interface
+import uiMarker1Img from 'assets/ui/ui/marker.png'
+
+
 
 export class AssetLoader {
   constructor(props) {
@@ -75,19 +79,20 @@ export class AssetLoader {
 	createSpriteSheets() {
 		logger.log("Creating sprite sheets..")
 
+		// Deprecated because of the tileLayer
 		Q.sheet("environment", this.assets["envImg"], {
-	      tilew: Q.CONST.tileSize,
-	      tileh: Q.CONST.tileSize,
+			      tilew: Q.CONST.tileSize,
+			      tileh: Q.CONST.tileSize,
 				w: 160,
 				h: 96,
 				cols: 5,
 				spacingX: 0, // - spacing between each tile x (after 1st)
 				spacingY: 0, // - spacing between each tile y
 				marginX: 0, // - margin around each tile x
-				marginY: 0, // - margin around each tile y							
-	      sx: 0,   // start the sprites at x=0
-	      sy: 0    // and y=0
-    });
+				marginY: 0, // - margin around each tile y
+			      sx: 0,   // start the sprites at x=0
+			      sy: 0    // and y=0
+		    });
 
 		// Ground
 		Q.sheet("GroundTile_1", this.assets["groundTileImg"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
@@ -97,9 +102,11 @@ export class AssetLoader {
 		Q.sheet("Bush_2", this.assets["aoBush2Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 		Q.sheet("Rock_1",	this.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
+		// UI
+		Q.sheet("Marker", this.assets["uiMarker"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
 		// Creatures
 		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-
 		
 		this.onFinish()
 	}
@@ -113,6 +120,9 @@ export class AssetLoader {
 
 
 		this.assets["groundTileImg"] = groungDesert1Img
+
+		this.assets["uiMarker"] = uiMarker1Img
+
 
 		this.assets["aoBush1Img"] = aoDesertBush1Img
 		this.assets["aoBush2Img"] = aoDesertBush2Img

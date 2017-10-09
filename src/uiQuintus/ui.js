@@ -5,6 +5,7 @@ import './sprites/_defCustomSprite.js'
 import './sprites/groundLayer.js'
 import './sprites/areaObjects.js'
 import './sprites/player.js'
+import './sprites/uiElements.js'
 
 import {AssetLoader} from './assetLoader.js'
 import {SceneBuilder} from './sceneBuilder.js'
