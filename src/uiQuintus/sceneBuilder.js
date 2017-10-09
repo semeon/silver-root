@@ -3,11 +3,13 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
+import {UiElementFactory} from './uiElementFactory.js'
 
 export class SceneBuilder {
   constructor(props) {
 		this.assets
 		this.session
+		this.uiFactory = new UiElementFactory({assets: this.assets})
   }	
 
 	setSession(props) {
@@ -23,40 +25,49 @@ export class SceneBuilder {
 
 
 	initScene(props) {
-
 		let assets = this.assets
+		let locData = this.session.currentLocation
 
-		let groundLayer = new Q.TileLayer({
-							tileW: 32,  // Default tile width
-							tileH: 32,  // Default tile height
-							blockTileW: 8,  // Default pre-render size
-							blockTileH: 6,
-							type: Q.SPRITE_NONE, // Default type (for collisions)
-							dataAsset: assets["envData"],
-							sheet: "environment"
-						})
-		
-		
-		logger.log("CREATING INSTANCES")
-		
+		logger.log("--- CREATING INSTANCES ---")
+
+		// Order is important for intercepting touch events!
+
+
+		// Player
 		let playerSprite = new Q.PlayerSprite()
-		playerSprite.p.x = 32*5 + 16
+		playerSprite.p.x = 16
 		playerSprite.p.y = 16
 		playerSprite.linkModel({model: "model!!"})
-						
 
-		let bushSprite = new Q.SpriteBush_1()
-		bushSprite.p.x = 49
-		bushSprite.p.y = 48
-		bushSprite.linkModel({model: "model!!"})
+		// Other Creatures
+		// ...
 
-		Q.scene("mainScene",function(stage) {
-			stage.insert(groundLayer)
-			var bush = stage.insert(bushSprite)
-			var player = stage.insert(playerSprite)
-			stage.add("viewport").follow(player)
+		// Terrain Object
+		let terrain = this.uiFactory.createTerrain({data: locData.terrain})
+		// console.dir(terrain)
 
-		});
+
+		// Ground Layer
+		// let groundLayer = this.uiFactory.createGroundLayer({asset: assets["envData"]})
+		// console.dir(groundLayer)
+
+		let groundTiles = this.uiFactory.createGround({w: locData.width, h: locData.height})
+		// console.dir(groundTiles)
+
+
+		Q.scene("mainScene", function(stage) {
+			
+			// Order is important for displaying the sprites!
+
+			// stage.insert(groundLayer)
+
+			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
+			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
+			let player = stage.insert(playerSprite)
+
+			stage.add("viewport") //.follow(player)
+
+		})
 	}
 
 
@@ -64,7 +75,7 @@ export class SceneBuilder {
 	startScene() {
 		Q.stageScene("mainScene", 0, { 
 		  label: "This is the label"
-		});		
+		})		
 	}
 	
 }

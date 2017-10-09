@@ -11,15 +11,18 @@ import envDesertDataXS from 'assets/ui/env/desert/desert_XS.json'
 // Player assets
 import playerImg from 'assets/ui/player/droid_32x32.png'
 
-// Area Obect Assets
-import aoBush1Img from 'assets/ui/env/desert/desert_object_bush_1.png'
-import aoBush2Img from 'assets/ui/env/desert/desert_object_bush_2.png'
-import aoBush3Img from 'assets/ui/env/desert/desert_object_bush_3.png'
-import aoBush4Img from 'assets/ui/env/desert/desert_object_bush_4.png'
-import aoBush5Img from 'assets/ui/env/desert/desert_object_bush_5.png'
-import aoBush6Img from 'assets/ui/env/desert/desert_object_cactus.png'
+// Area Obect Assets - Desert
 
-import aoRock1Img from 'assets/ui/env/desert/desert_object_rock.png'
+import groungDesert1Img from 'assets/ui/env/desert/desert_sand_1.png'
+
+import aoDesertBush1Img from 'assets/ui/env/desert/desert_object_bush_1.png'
+import aoDesertBush2Img from 'assets/ui/env/desert/desert_object_bush_2.png'
+import aoDesertBush3Img from 'assets/ui/env/desert/desert_object_bush_3.png'
+import aoDesertBush4Img from 'assets/ui/env/desert/desert_object_bush_4.png'
+import aoDesertBush5Img from 'assets/ui/env/desert/desert_object_bush_5.png'
+import aoDesertBush6Img from 'assets/ui/env/desert/desert_object_cactus.png'
+
+import aoDesertRock1Img from 'assets/ui/env/desert/desert_object_rock.png'
 
 
 export class AssetLoader {
@@ -86,8 +89,15 @@ export class AssetLoader {
 	      sy: 0    // and y=0
     });
 
-		Q.sheet("Bush_1", aoBush1Img, { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		Q.sheet("Bush_2", aoBush2Img, { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		// Ground
+		Q.sheet("GroundTile_1", this.assets["groundTileImg"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		// Objects
+		Q.sheet("Bush_1", this.assets["aoBush1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("Bush_2", this.assets["aoBush2Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("Rock_1",	this.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		// Creatures
 		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
 		
@@ -101,35 +111,40 @@ export class AssetLoader {
 	loadDesertAssets(props) {
 		let areaSize = props.areaSize
 
+
+		this.assets["groundTileImg"] = groungDesert1Img
+
+		this.assets["aoBush1Img"] = aoDesertBush1Img
+		this.assets["aoBush2Img"] = aoDesertBush2Img
+		this.assets["aoBush3Img"] = aoDesertBush3Img
+		this.assets["aoBush4Img"] = aoDesertBush4Img
+		this.assets["aoBush5Img"] = aoDesertBush5Img
+		this.assets["aoBush6Img"] = aoDesertBush6Img
+
+		this.assets["aoRock1Img"] = aoDesertRock1Img
+
+		// envData - deprecated??
+
 		this.assets["envImg"] = envDesertImg
 
-		this.assets["aoBush1Img"] = aoBush1Img
-		this.assets["aoBush2Img"] = aoBush2Img
-		this.assets["aoBush3Img"] = aoBush3Img
-		this.assets["aoBush4Img"] = aoBush4Img
-		this.assets["aoBush5Img"] = aoBush5Img
-		this.assets["aoBush6Img"] = aoBush6Img
-
-		this.assets["aoRock1Img"] = aoRock1Img
-
 		switch(areaSize) {
-	    case "XS":
+			    case "XS":
 				this.assets["envData"] = envDesertDataXS
-	      break
+			      break
 
-	    case "S":
+			    case "S":
 				this.assets["envData"] = envDesertDataS
-        break
+		        break
 
-	    case "M":
+			    case "M":
 				this.assets["envData"] = envDesertDataM
-        break
+		        break
 
-	    case "L":
+			    case "L":
 				this.assets["envData"] = envDesertDataL
-        break
+		        break
 
-	    default:
+			    default:
 				this.assets["envData"] = envDesertDataM
 		}
 

@@ -4,7 +4,8 @@ import {Q} from 'qObject'
 Q.PlayerSprite = class extends Q.SpriteCustom {
 	constructor(props) {
 		let p = {
-			sheet: "Player",
+			name: "R2-D2",
+			sheet: "Player"
 		}
 		super(p)
 	}

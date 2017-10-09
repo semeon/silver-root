@@ -48,7 +48,7 @@ class Generator {
 			id += this.getCount()
 		}
 		
-		let areaSize = "S"
+		let areaSize = "L"
 		
 		let height
 		let width
@@ -90,7 +90,7 @@ class Generator {
     for (var y = 0; y < height; y++) {
       for (var x = 0; x < width; x++)  {
 				if (x>2) {
-					if (dice.rollBool(20)) {   // terrain?
+					if (dice.rollBool(10)) {   // terrain?
 						let obj = {}
 						if (dice.rollBool(20)) {   // rock?
 							obj = this.generateRock()
