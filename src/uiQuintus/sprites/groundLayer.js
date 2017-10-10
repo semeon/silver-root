@@ -5,7 +5,7 @@ import {Q} from 'qObject'
 Q.SpriteGroundTile_1 = class extends Q.SpriteCustom {
 	constructor(props) {
 		let p = {
-			name: "Ground Tile",
+			name: "Ground",
 			sheet: "GroundTile_1"
 		}
 		super(p)
@@ -15,9 +15,8 @@ Q.SpriteGroundTile_1 = class extends Q.SpriteCustom {
 		super.onTouch(col)
 
 		this.stage.context.marker.hide()
-		this.stage.context.marker.p.frame = 0
-		this.stage.context.marker.moveTo({x: this.p.x, y: this.p.y})
-		this.stage.context.marker.show()
+		this.stage.context.marker.switchToGoTo()
+		this.stage.context.marker.show({x: this.p.x, y: this.p.y})
   }
 	
 }
