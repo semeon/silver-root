@@ -3,13 +3,13 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-import {UiElementFactory} from './uiElementFactory.js'
+import {SpriteFactory} from './spriteFactory.js'
 
 export class SceneBuilder {
   constructor(props) {
 		this.assets
 		this.session
-		this.uiFactory = new UiElementFactory({assets: this.assets})
+		this.spriteFactory = new SpriteFactory({assets: this.assets})
   }	
 
 	setSession(props) {
@@ -32,6 +32,8 @@ export class SceneBuilder {
 
 		// Order is important for intercepting touch events!
 
+		// Marker
+		let marker = this.spriteFactory.createMarker()
 
 		// Player
 		let playerSprite = new Q.PlayerSprite()
@@ -43,28 +45,31 @@ export class SceneBuilder {
 		// ...
 
 		// Terrain Object
-		let terrain = this.uiFactory.createTerrain({data: locData.terrain})
+		let terrain = this.spriteFactory.createTerrain({data: locData.terrain})
 		// console.dir(terrain)
 
 
-		let groundTiles = this.uiFactory.createGround({w: locData.width, h: locData.height})
+		let groundTiles = this.spriteFactory.createGround({w: locData.width, h: locData.height})
 		// console.dir(groundTiles)
 
-		let marker = this.uiFactory.createMarker()
-		console.dir(marker)
 
 		Q.scene("mainScene", function(stage) {
 
 			stage.context = {}
 			stage.context.marker = marker
+			stage.context.selectedPlayer
+			
 
 			console.dir(stage)
 			
 			// Order is important for displaying the sprites!
 
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
+
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
-			let player = stage.insert(playerSprite)
+
+			stage.insert(playerSprite)
+			stage.context.selectedPlayer = playerSprite
 
 			stage.insert(marker)
 

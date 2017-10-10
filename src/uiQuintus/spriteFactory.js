@@ -6,7 +6,7 @@ import './sprites/areaObjects.js'
 import './sprites/player.js'
 
 
-export class UiElementFactory {
+export class SpriteFactory {
   constructor(props) {
 		this.assets = props.assets
   }
