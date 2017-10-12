@@ -28,7 +28,7 @@ export class SceneBuilder {
 		let assets = this.assets
 		let locData = this.session.currentLocation
 
-		logger.log("--- CREATING INSTANCES ---")
+		logger.log("Creating sprites instances..")
 
 		// Order is important for intercepting touch events!
 
@@ -36,10 +36,7 @@ export class SceneBuilder {
 		let marker = this.spriteFactory.createMarker()
 
 		// Player
-		let playerSprite = new Q.PlayerSprite()
-		playerSprite.p.x = 16
-		playerSprite.p.y = 16
-		playerSprite.linkModel({model: "model!!"})
+		let players = this.spriteFactory.createPlayers({players: this.session.getPlayers()})
 
 		// Other Creatures
 		// ...
@@ -55,25 +52,20 @@ export class SceneBuilder {
 
 		Q.scene("mainScene", function(stage) {
 
-			stage.context = {}
-			stage.context.marker = marker
-			stage.context.selectedPlayer
-			
+			logger.log("Loading scene..")
 
-			console.dir(stage)
-			
+
 			// Order is important for displaying the sprites!
-
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
-
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
-
-			stage.insert(playerSprite)
-			stage.context.selectedPlayer = playerSprite
+			for (let i=0; i<players.length; i++) 	stage.insert(players[i])
 
 			stage.insert(marker)
-
 			stage.add("viewport") //.follow(player)
+
+			stage.context = {}
+			stage.context.marker = marker
+			stage.context.selectedPlayer = players[0]
 
 		})
 	}
@@ -81,9 +73,12 @@ export class SceneBuilder {
 
 	
 	startScene() {
+		logger.log("Starting the scene..")
 		Q.stageScene("mainScene", 0, { 
 		  label: "This is the label"
 		})		
+
+		logger.log("Ba dum tss!")
 	}
 	
 }

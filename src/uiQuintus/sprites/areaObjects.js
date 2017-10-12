@@ -12,18 +12,11 @@ Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
 
 	onTouch(col) {
 		super.onTouch(col)
-
 		this.stage.context.marker.hide()
 		this.stage.context.marker.switchToExamine()
 		this.stage.context.marker.show({x: this.p.x, y: this.p.y})
 	}
-
 }
-
-
-
-
-
 
 Q.SpriteBush_1 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
@@ -35,7 +28,6 @@ Q.SpriteBush_1 = class extends Q.SpriteAreaObjectDefault {
 	}
 }
 
-
 Q.SpriteBush_2 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
 		let p = {
@@ -45,7 +37,6 @@ Q.SpriteBush_2 = class extends Q.SpriteAreaObjectDefault {
 		super(p)
 	}
 }
-
 
 Q.SpriteRock_1 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {

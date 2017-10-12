@@ -23,7 +23,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 
 	moveTo(props) {
 		this.p.x = props.x
-		this.p.y = props.y		
+		this.p.y = props.y
 	}
 
 }

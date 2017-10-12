@@ -17,6 +17,7 @@ export class UI {
   }	
 
 	launch(props) {
+		logger.log("Loading User Interface..")
 		this.assetLoader.setSession({session: props.session})
 		this.sceneBuilder.setSession({session: props.session})
 		this.assetLoader.start()

@@ -11,21 +11,6 @@ export class SpriteFactory {
 		this.assets = props.assets
   }
 
-
-	createGroundLayer(props) {
-		let groundLayer = new Q.TileLayer({
-			tileW: Q.CONST.tileSize,  // Default tile width
-			tileH: Q.CONST.tileSize,  // Default tile height
-			blockTileW: 8,  // Default pre-render size
-			blockTileH: 6,
-			type: Q.SPRITE_NONE, // Default type (for collisions)
-			dataAsset: props.asset,
-			sheet: "environment"
-		})
-
-		return groundLayer
-	}
-
 	createGround(props)	{
 		let h = props.h
 		let w = props.w
@@ -71,6 +56,22 @@ export class SpriteFactory {
 			result.push(sprite)
 		}
 		return result
+	}
+
+	createPlayers(props)	{
+
+		let players = []
+
+		for (let i=0; i<props.players.length; i++) {
+			let playerModel = props.players[i]
+			let playerSprite = new Q.PlayerSprite()
+			playerSprite.p.x = 16
+			playerSprite.p.y = 16 + (i+1) * Q.CONST.tileSize
+			playerSprite.linkModel({model: playerModel})
+
+			players.push(playerSprite)
+		}
+		return players
 	}
 
 
