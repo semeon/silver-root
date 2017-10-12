@@ -83,6 +83,9 @@ class Generator {
 
 		let allObjects = []
 
+
+		let collisionObjects = []
+
 		let terrain = []
 		let creatures = []
 		let items = []
@@ -98,13 +101,13 @@ class Generator {
 							obj = this.generateBush()							
 						}
 						terrain.push({object: obj, x: x, y: y})
-						allObjects.push({object: obj, x: x, y: y})
+						collisionObjects.push({object: obj, x: x, y: y})
 
 					// actor?
 					} else if (dice.rollBool(3)) { // creature?
 						let obj = this.generateCreature()
 						creatures.push({object: obj, x: x, y: y})
-						allObjects.push({object: obj, x: x, y: y})
+						collisionObjects.push({object: obj, x: x, y: y})
 					}
 				} 
       }
@@ -124,7 +127,7 @@ class Generator {
 			creatures: creatures,
 			items: items,
 			
-			allObjects: allObjects
+			collisionObjects: collisionObjects
 		}
 		
 		return loc
