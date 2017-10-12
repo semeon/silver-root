@@ -1,7 +1,6 @@
 let path = require('path')
 let webpack = require('webpack')
 let BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-// let Quintus = require('quintus')
 
 // Phaser webpack config
 // let phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
