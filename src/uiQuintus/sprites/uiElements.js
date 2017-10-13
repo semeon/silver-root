@@ -50,7 +50,7 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		
 		if (this.getCurrentState() == "goto") {
 			this.stage.context.selectedPlayer.moveTo({x: x, y: y})
-			console.log( this.stage.context.selectedPlayer.p.model )
+			// console.log( this.stage.context.selectedPlayer.p.model )
 			
 			// this.stage.context.selectedPlayer.model.goTo({x: x, y: y})
 			

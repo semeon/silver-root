@@ -25,6 +25,7 @@ export class SceneBuilder {
 
 
 	initScene(props) {
+		let self = this
 		let assets = this.assets
 		let locData = this.session.currentLocation
 
@@ -51,9 +52,7 @@ export class SceneBuilder {
 
 
 		Q.scene("mainScene", function(stage) {
-
 			logger.log("Loading scene..")
-
 
 			// Order is important for displaying the sprites!
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])

@@ -11,8 +11,11 @@ export class GameObject {
 		this.hpMax = props.hpMax
 		this.hp = this.hpMax
 		this.destructable = true
-		
-		this.sprite
+
+		this.location = null
+		this.gridCoordinates = null
+
+		this.sprite = null
 	}
 
 	getId() {
@@ -32,9 +35,7 @@ export class GameObject {
 
 	isDestroyed() {
 		let result = this.destructable && this.hp<=0
-		
 		return result
-		
 	}
 
   increaseHP(props) {
@@ -66,6 +67,25 @@ export class GameObject {
 		if (props.attack.critical) message = message + " critically"
 		message += " hit for " + props.attack.damage + " HP"
 		logger.log({m: message})
+	}
+	
+	linkSprite(props) {
+		this.sprite = props.sprite
+	}
+
+	setLocation(props) {
+		this.location = props.location
+	}
+
+	setGridCoordinates(props) {
+		this.gridCoordinates = {
+			x: props.x,
+			y: props.y
+		}
+	}
+
+	getGridCoordinates(props) {
+		return this.gridCoordinates
 	}
 
 }

@@ -31,11 +31,11 @@ export class SpriteFactory {
 		let data = props.data
 		let result = []
 
-		// console.dir(data)
-
 		for (let i=0; i<data.length; i++) {
-			let model = data[i]
-			let name = model.object.name
+			let item = data[i]
+			let model = data[i].object
+			
+			let name = model.name
 			let sprite
 			switch(name) {
 		    case "Bush":
@@ -49,9 +49,9 @@ export class SpriteFactory {
 		    default:
 					sprite = null
 			}
-			
-			sprite.moveTo({x:this.calcCoordinate(model.x), y:this.calcCoordinate(model.y)})
+
 			sprite.linkModel({model: model})
+			sprite.moveTo({x:this.calcCoordinate(item.x), y:this.calcCoordinate(item.y)})
 
 			result.push(sprite)
 		}
@@ -65,10 +65,11 @@ export class SpriteFactory {
 		for (let i=0; i<props.players.length; i++) {
 			let playerModel = props.players[i]
 			let playerSprite = new Q.PlayerSprite()
-			playerSprite.p.x = 16
-			playerSprite.p.y = 16 + (i+1) * Q.CONST.tileSize
 			playerSprite.linkModel({model: playerModel})
-
+			let x = playerSprite.p.model.getGridCoordinates().x
+			let y = playerSprite.p.model.getGridCoordinates().y
+			playerSprite.p.x = this.calcCoordinate(x)
+			playerSprite.p.y = this.calcCoordinate(y)
 			players.push(playerSprite)
 		}
 		return players

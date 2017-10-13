@@ -4,18 +4,31 @@ export class GameMaster {
 
 	constructor(props) {
 		this.actions = props.actions
-		this.location = {}
-		this.actors = []		
+		this.actors = []
+		this.session = null
 	}
 	
 	init(props) {
-		this.location = props.location
-		this.actors = props.location.objectMap
+		this.session = props.session
 	}
 	
 	startGame(props){
 		this.customFlow1()
 	}
+
+
+	do(props) {
+		let actionId = props.action
+		let action = this.actions[actionId]
+		
+		if (!action) {
+			logger.log("Game Master does not approve this action: " + actionId)
+		} else {
+			logger.log("Game Master is performing action: " + actionId)
+		}
+		
+	}
+
 
 	performAttack(props) {
 		this.actions.attack({actor: props.actor, target: props.target})
