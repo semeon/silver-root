@@ -18,6 +18,12 @@ Q.SpriteCustom = class extends Q.Sprite {
 		this.p.model.linkSprite({sprite: this})
 	}
 
+	moveToTile(props) {
+		this.p.x = Q.tileToPoint( props.x )
+		this.p.y = Q.tileToPoint( props.y )
+	}
+
+
 	moveTo(props) {
 		this.p.x = props.x
 		this.p.y = props.y

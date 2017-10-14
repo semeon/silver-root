@@ -82,6 +82,9 @@ export class GameObject {
 			x: props.x,
 			y: props.y
 		}
+		if (this.sprite) {
+			this.sprite.moveToTile(this.gridCoordinates)
+		}
 	}
 
 	getGridCoordinates(props) {

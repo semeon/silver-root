@@ -20,14 +20,12 @@ export class GameMaster {
 	do(props) {
 		let actionId = props.action
 		let action = this.actions[actionId]
-		
-		console.log(props)
-		
+
 		if (!action) {
 			logger.log("Game Master does not approve this action: " + actionId)
 		} else {
 			logger.log("Game Master is performing action: " + actionId)
-			console.dir(action)
+			action({ actor: props.actor, target: props.target, data: props.data, session: this.session })
 		}
 	}
 
@@ -38,9 +36,6 @@ export class GameMaster {
 		return path
 	}
 
-	performAttack(props) {
-		this.actions.attack({actor: props.actor, target: props.target})
-	}
 
 	customFlow1(props) {
 		
