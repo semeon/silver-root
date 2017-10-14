@@ -11,6 +11,7 @@ export class UiController {
   }	
 	
 	setPath(props) {
+		this.pathSprites.forEach(function(element) {   element.destroy()	});		
 		this.path = this.stage.context.gm.buildPath(props)
 		this.drawPath()
 	}
