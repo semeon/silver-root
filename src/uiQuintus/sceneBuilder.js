@@ -9,7 +9,7 @@ export class SceneBuilder {
   constructor(props) {
 		this.assets
 		this.session
-		this.spriteFactory = new SpriteFactory({assets: this.assets})
+		this.spriteFactory = new SpriteFactory({assets: this.assets, grid: this.grid})
   }	
 
 	setSession(props) {
@@ -63,6 +63,8 @@ export class SceneBuilder {
 			stage.add("viewport") //.follow(player)
 
 			stage.context = {}
+			stage.context.session = self.session
+			stage.context.gm = self.session.gm
 			stage.context.marker = marker
 			stage.context.selectedPlayer = players[0]
 

@@ -9,6 +9,7 @@ import './sprites/player.js'
 export class SpriteFactory {
   constructor(props) {
 		this.assets = props.assets
+		this.grid = props.grid
   }
 
 	createGround(props)	{
@@ -18,8 +19,8 @@ export class SpriteFactory {
 		for (let x=0; x<w; x++) {
 			for (let y=0; y<h; y++) {
 				let sprite = new Q.SpriteGroundTile_1()
-				sprite.p.x = this.calcCoordinate(x)
-				sprite.p.y = this.calcCoordinate(y)				
+				sprite.p.x = Q.tileToPoint(x)
+				sprite.p.y = Q.tileToPoint(y)				
 				result.push(sprite)
 			}
 		}
@@ -51,7 +52,10 @@ export class SpriteFactory {
 			}
 
 			sprite.linkModel({model: model})
-			sprite.moveTo({x:this.calcCoordinate(item.x), y:this.calcCoordinate(item.y)})
+			sprite.moveTo({
+				x: Q.tileToPoint(item.x), 
+				y: Q.tileToPoint(item.y)
+			})
 
 			result.push(sprite)
 		}
@@ -68,8 +72,8 @@ export class SpriteFactory {
 			playerSprite.linkModel({model: playerModel})
 			let x = playerSprite.p.model.getGridCoordinates().x
 			let y = playerSprite.p.model.getGridCoordinates().y
-			playerSprite.p.x = this.calcCoordinate(x)
-			playerSprite.p.y = this.calcCoordinate(y)
+			playerSprite.p.x = Q.tileToPoint(x)
+			playerSprite.p.y = Q.tileToPoint(y)
 			players.push(playerSprite)
 		}
 		return players
@@ -78,16 +82,15 @@ export class SpriteFactory {
 
 	createMarker(props)	{
 		let marker = new Q.SpriteMarker()
-		marker.moveTo({x:this.calcCoordinate(0), y:this.calcCoordinate(0)})
+		marker.moveTo({
+			x: Q.tileToPoint(0), 
+			y: Q.tileToPoint(0)
+		})
 		marker.hide()
 		return marker
 	}
 	
 
-	calcCoordinate(prop) {
-		let result = prop * Q.CONST.tileSize + Q.CONST.tileSize/2
-		// result = Math.floor(result)
-		return result
-	}
+
 	
 }
