@@ -54,17 +54,14 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		if (this.getCurrentState() == "goto") {
 			
 			// Request GM to move the selected player to X.Y
-			// this.stage.context.gm.action({
-			// 	action: "walk",
-			// 	actor: this.stage.context.selectedPlayer,
-			// 	target: {x: gridX, y: gridY}
-			// })
+			this.stage.context.gm.do({
+				action: "walk",
+				actor: this.stage.context.selectedPlayer,
+				target: {x: gridX, y: gridY}
+			})
 			
-			console.log(x, y, gridX, gridY)
-			
-			// this.stage.context.selectedPlayer.moveTo({x: x, y: y})
-			// this.stage.context.selectedPlayer.model.goTo({x: x, y: y})
-			
+			// console.log(x, y, gridX, gridY)
+		
 		} else if (this.getCurrentState() == "examine") {
 			console.log("Switching to attack")
 			this.switchToAttack()
@@ -77,5 +74,18 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		
 	}
 	
+	
+}
+
+
+Q.SpritePathStep = class extends Q.SpriteCustom {
+	constructor(props) {
+		let p = {
+			name: "Path",
+			sheet: "PathStep",
+			frame: 0
+		}
+		super(p)
+	}
 	
 }

@@ -89,9 +89,16 @@ class Generator {
 		let terrain = []
 		let creatures = []
 		let items = []
+		let collisionMatrix = []
 				
     for (var y = 0; y < height; y++) {
+
+			collisionMatrix[y] = []
+			
       for (var x = 0; x < width; x++)  {
+
+				collisionMatrix[y][x] = 0
+				
 				if (x>2) {
 					if (dice.rollBool(10)) {   // terrain?
 						let obj = {}
@@ -102,12 +109,14 @@ class Generator {
 						}
 						terrain.push({object: obj, x: x, y: y})
 						collisionObjects.push({object: obj, x: x, y: y})
+						collisionMatrix[y][x] = 1
 
 					// actor?
 					} else if (dice.rollBool(3)) { // creature?
 						let obj = this.generateCreature()
 						creatures.push({object: obj, x: x, y: y})
-						collisionObjects.push({object: obj, x: x, y: y})
+						// collisionObjects.push({object: obj, x: x, y: y})
+						// collisionMatrix[y][x] = 1
 					}
 				} 
       }
@@ -127,7 +136,8 @@ class Generator {
 			creatures: creatures,
 			items: items,
 			
-			collisionObjects: collisionObjects
+			collisionObjects: collisionObjects,
+			collisionMatrix: collisionMatrix,
 		}
 		
 		return loc

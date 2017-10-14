@@ -90,7 +90,14 @@ export class SpriteFactory {
 		return marker
 	}
 	
-
+	createPathStep(props)	{
+		let step = new Q.SpritePathStep()
+		step.moveTo({
+			x: Q.tileToPoint(props.x), 
+			y: Q.tileToPoint(props.y)
+		})
+		return step
+	}
 
 	
 }

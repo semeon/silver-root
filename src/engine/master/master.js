@@ -4,6 +4,7 @@ export class GameMaster {
 
 	constructor(props) {
 		this.actions = props.actions
+		this.pathfinder = props.pathfinder
 		this.actors = []
 		this.session = null
 	}
@@ -16,19 +17,26 @@ export class GameMaster {
 		this.customFlow1()
 	}
 
-
 	do(props) {
 		let actionId = props.action
 		let action = this.actions[actionId]
+		
+		console.log(props)
 		
 		if (!action) {
 			logger.log("Game Master does not approve this action: " + actionId)
 		} else {
 			logger.log("Game Master is performing action: " + actionId)
+			console.dir(action)
 		}
-		
 	}
 
+	buildPath(props) {
+		let path = null
+		props.matrix = this.session.currentLocation.collisionMatrix
+		path = this.pathfinder.find(props)
+		return path
+	}
 
 	performAttack(props) {
 		this.actions.attack({actor: props.actor, target: props.target})

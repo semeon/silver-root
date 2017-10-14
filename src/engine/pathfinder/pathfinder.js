@@ -3,7 +3,6 @@ import * as PF from 'pathfinding'
 
 export class Pathfinder {
 	constructor(props) {
-		this.grid
 		this.finder = new PF.AStarFinder({
 			allowDiagonal: true,
 			dontCrossCorners: true
@@ -15,7 +14,9 @@ export class Pathfinder {
 		let fromY = props.fromY
 		let toX = props.toX
 		let toY = props.toY
-		let grid = PF.Grid(props.matrix)
+		let matrix = props.matrix
+
+		let grid = new PF.Grid(matrix)
 		let path = this.finder.findPath(fromX, fromY, toX, toY, grid)
 
 		return path

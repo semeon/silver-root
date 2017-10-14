@@ -19,7 +19,7 @@ class GameEngine {
 	
 	newSession(props){
 		let universeInstance = this.universeFactory.createUniverse()
-		let gm = new GameMaster({actions: this.actions})
+		let gm = new GameMaster({actions: this.actions, pathfinder: this.pathfinder})
 		let session = new GameSession({universe: universeInstance, gm: gm})
 		session.start()
 		return session

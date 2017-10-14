@@ -18,7 +18,7 @@ export class GameSession {
 			
 		this.generatePlayers()
 			
-		this.gm.init({location: this.currentLocation})
+		this.gm.init({session: this})
 		this.gm.startGame()
 	}
 
