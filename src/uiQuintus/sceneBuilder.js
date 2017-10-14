@@ -5,6 +5,7 @@ import {Q} from 'qObject'
 
 import {SpriteFactory} from './spriteFactory.js'
 import {UiController} from './uiController.js'
+import {EventController} from './eventController.js'
 
 export class SceneBuilder {
   constructor(props) {
@@ -64,11 +65,10 @@ export class SceneBuilder {
 			stage.add("viewport") //.follow(player)
 
 			stage.context = {}
-			stage.context.uiController = new UiController({stage: stage, spriteFactory: self.spriteFactory})
 			stage.context.session = self.session
 			stage.context.gm = self.session.gm
-			stage.context.marker = marker
-			stage.context.path = null
+			stage.context.uiController = new UiController({ stage: stage, marker: marker, spriteFactory: self.spriteFactory})
+			stage.context.eventController = new EventController({ context: stage.context })
 			stage.context.selectedPlayer = players[0]
 
 		})

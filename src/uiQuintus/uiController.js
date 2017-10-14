@@ -4,14 +4,15 @@ import {Q} from 'qObject'
 
 export class UiController {
   constructor(props) {
-		this.path
+		this.marker = props.marker
 		this.stage = props.stage
 		this.spriteFactory = props.spriteFactory
+		this.path
 		this.pathSprites = []
   }	
 	
 	setPath(props) {
-		this.pathSprites.forEach(function(element) {   element.destroy()	});		
+		this.clearPath()
 		this.path = this.stage.context.gm.buildPath(props)
 		this.drawPath()
 	}
@@ -25,4 +26,9 @@ export class UiController {
 			this.stage.insert(stepSprite)
 		}
 	}
+	
+	clearPath(props) {
+		this.pathSprites.forEach(function(element) {   element.destroy()	});		
+	}
+	
 }

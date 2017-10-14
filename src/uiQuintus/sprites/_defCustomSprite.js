@@ -11,7 +11,6 @@ Q.SpriteCustom = class extends Q.Sprite {
 	
   onTouch(col) {
  		logger.log("You see: " + this.p.name)
-		this.stage.context.marker.hide()		
   }
 
 	linkModel(props) {
