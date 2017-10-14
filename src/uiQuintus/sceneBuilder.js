@@ -9,7 +9,7 @@ export class SceneBuilder {
   constructor(props) {
 		this.assets
 		this.session
-		this.spriteFactory = new SpriteFactory({assets: this.assets, grid: this.grid})
+		this.spriteFactory = new SpriteFactory({assets: this.assets})
   }	
 
 	setSession(props) {
