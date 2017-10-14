@@ -44,22 +44,12 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		let x = this.p.x
 		let y = this.p.y
 
-		let gridX = Q.pointToTile( x )
-		let gridY = Q.pointToTile( y )
-
 		super.onTouch(col)
 		
 		console.log("Marker state: " + this.getCurrentState())
 		
 		if (this.getCurrentState() == "goto") {
-			// Request GM to move the selected player to X.Y
-			this.stage.context.uiController.clearPath()
-			this.stage.context.gm.do({
-				action: "walk",
-				actor: this.stage.context.selectedPlayer,
-				target: {x: gridX, y: gridY}
-			})
-			
+			this.stage.context.eventController.onGotoMarkerTouch({ x: x, y: y })			
 		
 		} else if (this.getCurrentState() == "examine") {
 			console.log("Switching to attack")

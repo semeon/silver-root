@@ -20,5 +20,25 @@ export class EventController {
 		this.context.uiController.marker.show({x: props.x, y: props.y})
 	}
 
+
+	onGotoMarkerTouch(props){
+		// Request GM to move the selected player to X.Y
+
+		let gridX = Q.pointToTile( props.x )
+		let gridY = Q.pointToTile( props.y )		
+		let path = this.context.uiController.path
+		
+		this.context.uiController.clearPath()
+		this.context.uiController.marker.hide()
+		this.context.gm.do({
+			action: "walk",
+			actor: this.context.selectedPlayer.p.model,
+			target: {x: gridX, y: gridY},
+			data: path
+		})
+		
+
+	}
+
 	
 }
