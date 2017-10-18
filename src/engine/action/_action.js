@@ -6,6 +6,7 @@ export class Action {
 		this.id = props.id
 		this.name = props.name
 		this.caption = props.caption
+		this.action = props.action
 		this.result = {
 			success: false
 		}

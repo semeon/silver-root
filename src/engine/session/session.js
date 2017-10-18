@@ -1,11 +1,13 @@
 import {logger} from 'logger'
 import {generator} from 'generator'
+import {QueueController} from '../queue/queueController.js'
 
 export class GameSession {
 
 	constructor(props) {
 		this.active = false
 		this.universe = props.universe
+		this.queueController = new QueueController()
 		this.gm = props.gm
 		this.gm.init({session: this})
 		this.currentLocation = null

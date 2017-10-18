@@ -1,4 +1,6 @@
 import {logger} from 'logger'
+import {Action} from '../action/_action.js'
+
 
 export class GameMaster {
 
@@ -25,7 +27,11 @@ export class GameMaster {
 			logger.log("Game Master does not approve this action: " + actionId)
 		} else {
 			logger.log("Game Master is performing action: " + actionId)
-			action({ actor: props.actor, target: props.target, data: props.data, session: this.session })
+			this.session.queueController.addItem({
+				action: action, 
+				data: { actor: props.actor, target: props.target, data: props.data, session: this.session }
+			})
+			// action({ actor: props.actor, target: props.target, data: props.data, session: this.session })
 		}
 	}
 

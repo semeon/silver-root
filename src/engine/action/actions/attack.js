@@ -1,6 +1,6 @@
 import {dice} from 'dice'
 import {logger} from 'logger'
-import {Action} from './_action.js'
+import {Action} from '../_action.js'
 
 export class Attack extends Action {
 
