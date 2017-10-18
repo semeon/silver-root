@@ -4,7 +4,6 @@ export class QueueItem {
 
 	constructor(props) {
 		this.action = props.action
-		this.data = props.data
 		this.queueController = props.control
 		this.successor = null
 	}

@@ -1,16 +1,18 @@
 import {logger} from 'logger'
 import {QueueItem} from './queueItem.js'
 
+// QUEUE IS ON HOLD
+
 export class QueueController {
 
 	constructor(props) {
 		this.first = null
-		this.active = false
+		this.isActive = false
 	}
 
 	start(props) {
 		console.log("QUEUE: start()")
-		this.active = true
+		this.isActive = true
 		this.first.start()
 	}
 
@@ -32,12 +34,12 @@ export class QueueController {
 	}
 
 	onQueueCompletion(props) {
-		this.active = false
+		this.isActive = false
 		console.log("QUEUE: onQueueCompletion()")
 	}
 
 	isActive() {
-		return this.active
+		return this.isActive
 	}
 
 	getFirstItem(props) {

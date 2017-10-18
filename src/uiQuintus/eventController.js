@@ -8,6 +8,11 @@ export class EventController {
   }	
 	
 	onEmptyTileTouch(props){
+		
+		console.dir(this.context.gm)
+		
+		if ( this.context.gm.isBusy() ) return
+		
 		let fromX = Q.pointToTile(this.context.selectedPlayer.p.x)
 		let fromY = Q.pointToTile(this.context.selectedPlayer.p.y)
 		let toX = Q.pointToTile(props.x)

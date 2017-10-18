@@ -1,5 +1,5 @@
 import {logger} from 'logger'
-import {Action} from '../action/_action.js'
+// import {ActionFactory} from '../action/actionsFactory.js'
 
 
 export class GameMaster {
@@ -9,10 +9,16 @@ export class GameMaster {
 		this.pathfinder = props.pathfinder
 		this.actors = []
 		this.session = null
+		
+		this.isBusyFlag = false
 	}
 	
 	init(props) {
 		this.session = props.session
+	}
+	
+	isBusy(props) {
+		return this.isBusyFlag
 	}
 	
 	startGame(props){
@@ -20,19 +26,35 @@ export class GameMaster {
 	}
 
 	do(props) {
+
+		if (this.isBusyFlag) {
+			logger.log("Game Master is busy at the moment")
+			return
+		}
+
 		let actionId = props.action
 		let action = this.actions[actionId]
 
 		if (!action) {
 			logger.log("Game Master does not approve this action: " + actionId)
 		} else {
+			this.isBusyFlag = true
 			logger.log("Game Master is performing action: " + actionId)
-			this.session.queueController.addItem({
-				action: action, 
-				data: { actor: props.actor, target: props.target, data: props.data, session: this.session }
+
+			action({ 
+				actor: props.actor, 
+				target: props.target, 
+				data: props.data, 
+				session: this.session, 
+				gm: this,
+				callback: this.onActionCompletion.bind(this) 
 			})
-			// action({ actor: props.actor, target: props.target, data: props.data, session: this.session })
 		}
+	}
+	
+	onActionCompletion(props) {
+		this.isBusyFlag = false
+		console.log("acton completed callback")
 	}
 
 	buildPath(props) {
@@ -44,11 +66,9 @@ export class GameMaster {
 
 
 	customFlow1(props) {
-		
 		for (let i=0; i<2; i++) {
 			// this.actions.attack({actor: this.actors[0].object, target: this.actors[1].object})
 			// this.actions.attack({actor: this.actors[1].object, target: this.actors[0].object})
 		}
-
 	}
 }
