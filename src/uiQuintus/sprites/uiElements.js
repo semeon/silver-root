@@ -59,11 +59,7 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		} else {
 			
 		}
-
-		
 	}
-	
-	
 }
 
 
@@ -76,5 +72,15 @@ Q.SpritePathStep = class extends Q.SpriteCustom {
 		}
 		super(p)
 	}
-	
+}
+
+Q.SpritePlayerHighlight = class extends Q.SpriteCustom {
+	constructor(props) {
+		let p = {
+			name: "PlayerHighlight",
+			sheet: "PlayerHighlight",
+			frame: 0
+		}
+		super(p)
+	}
 }

@@ -60,6 +60,8 @@ export class SceneBuilder {
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
 			for (let i=0; i<players.length; i++) 	stage.insert(players[i])
+			for (let i=0; i<players.length; i++) 	stage.insert(players[i].p.hl)
+
 
 			stage.insert(marker)
 			stage.add("viewport") //.follow(player)
@@ -67,9 +69,10 @@ export class SceneBuilder {
 			stage.context = {}
 			stage.context.session = self.session
 			stage.context.gm = self.session.gm
+			stage.context.players = players
 			stage.context.uiController = new UiController({ stage: stage, marker: marker, spriteFactory: self.spriteFactory})
 			stage.context.eventController = new EventController({ context: stage.context })
-			stage.context.selectedPlayer = players[0]
+			players[0].select()
 
 		})
 	}

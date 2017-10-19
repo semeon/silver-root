@@ -27,6 +27,7 @@ import aoDesertRock1Img from 'assets/ui/env/desert/desert_object_rock.png'
 // User Interface
 import uiMarker1Img from 'assets/ui/ui/marker.png'
 import uiPathStep1Img from 'assets/ui/ui/pathStep.png'
+import uiPlayerHighlight1Img from 'assets/ui/ui/playerHighlight.png'
 
 
 
@@ -91,6 +92,7 @@ export class AssetLoader {
 		// UI
 		Q.sheet("Marker", this.assets["uiMarker"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 		Q.sheet("PathStep", this.assets["uiPathStep"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("PlayerHighlight", this.assets["uiPlayerHighlight"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
 		// Creatures
 		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
@@ -109,6 +111,7 @@ export class AssetLoader {
 
 		this.assets["uiMarker"] = uiMarker1Img
 		this.assets["uiPathStep"] = uiPathStep1Img
+		this.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
 
 		this.assets["aoBush1Img"] = aoDesertBush1Img
 		this.assets["aoBush2Img"] = aoDesertBush2Img
@@ -119,30 +122,9 @@ export class AssetLoader {
 
 		this.assets["aoRock1Img"] = aoDesertRock1Img
 
-		// envData - deprecated??
-
 		this.assets["envImg"] = envDesertImg
 
-		switch(areaSize) {
-			    case "XS":
-				this.assets["envData"] = envDesertDataXS
-			      break
 
-			    case "S":
-				this.assets["envData"] = envDesertDataS
-		        break
-
-			    case "M":
-				this.assets["envData"] = envDesertDataM
-		        break
-
-			    case "L":
-				this.assets["envData"] = envDesertDataL
-		        break
-
-			    default:
-				this.assets["envData"] = envDesertDataM
-		}
 
 		
 	}

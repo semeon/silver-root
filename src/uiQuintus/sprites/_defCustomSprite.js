@@ -11,6 +11,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	
   onTouch(col) {
  		// logger.log("You see: " + this.p.name)
+		this.stage.context.eventController.onAnyTouch()
   }
 
 	linkModel(props) {
@@ -19,10 +20,8 @@ Q.SpriteCustom = class extends Q.Sprite {
 	}
 
 	moveToTile(props) {
-		this.p.x = Q.tileToPoint( props.x )
-		this.p.y = Q.tileToPoint( props.y )
+		this.moveTo({ x: Q.tileToPoint( props.x ), y: Q.tileToPoint( props.y ) })
 	}
-
 
 	moveTo(props) {
 		this.p.x = props.x

@@ -6,12 +6,14 @@ export class EventController {
   constructor(props) {
 		this.context = props.context
   }	
+
+	onAnyTouch(props) {
+		// if ( this.context.gm.isBusy() ) this.context.gm.abortAction()
+	}
 	
 	onEmptyTileTouch(props){
 		
-		console.dir(this.context.gm)
-		
-		if ( this.context.gm.isBusy() ) { 
+		if ( this.context.gm.isBusy() ) {
 			this.context.gm.abortAction()
 			return
 		}
@@ -44,9 +46,15 @@ export class EventController {
 			target: {x: gridX, y: gridY},
 			data: path
 		})
-		
-
 	}
 
+	onPlayerTouch(props) {
+		if ( this.context.gm.isBusy() ) return
+
+		for (let i=0; i<this.context.players.length; i++) {
+			let player = this.context.players[i].hideHl()
+		}
+		props.player.select()
+	}
 	
 }

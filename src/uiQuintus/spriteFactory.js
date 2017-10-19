@@ -68,12 +68,17 @@ export class SpriteFactory {
 
 		for (let i=0; i<props.players.length; i++) {
 			let playerModel = props.players[i]
-			let playerSprite = new Q.PlayerSprite()
+			let playerSprite = new Q.PlayerSprite({name: playerModel.name})
 			playerSprite.linkModel({model: playerModel})
+
 			let x = playerSprite.p.model.getGridCoordinates().x
 			let y = playerSprite.p.model.getGridCoordinates().y
 			playerSprite.p.x = Q.tileToPoint(x)
 			playerSprite.p.y = Q.tileToPoint(y)
+
+			let hl = new Q.SpritePlayerHighlight()
+			playerSprite.linkHighlight({hl: hl})
+
 			players.push(playerSprite)
 		}
 		return players
@@ -95,6 +100,16 @@ export class SpriteFactory {
 		step.moveTo({
 			x: Q.tileToPoint(props.x), 
 			y: Q.tileToPoint(props.y)
+		})
+		return step
+	}
+
+	createPlayerHighlight(props)	{
+		let player = props.player
+		let step = new Q.SpritePlayerHighlight()
+		step.moveTo({
+			x: Q.tileToPoint(player.x), 
+			y: Q.tileToPoint(player.y)
 		})
 		return step
 	}
