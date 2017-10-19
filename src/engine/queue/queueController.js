@@ -6,40 +6,61 @@ import {QueueItem} from './queueItem.js'
 export class QueueController {
 
 	constructor(props) {
+		this.session = props.session
 		this.first = null
-		this.isActive = false
+		this.isActiveFlag = false
+		this.isStopFlag = false
+		this.defaultDelay = 500
 	}
 
 	start(props) {
 		console.log("QUEUE: start()")
-		this.isActive = true
+		console.dir(this.first)
+		this.isActiveFlag = true
 		this.first.start()
+	}
+
+	stop(props) {
+		this.isStopFlag = true
+		this.first = null
+		console.log("QUEUE: Interruption")
 	}
 
 	addItem(props) {
 		console.log("QUEUE: addItem()")
-		let item = new QueueItem({action: props.action, data: props.data, control: this})
+		let item = new QueueItem({transaction: props.transaction, name: props.name, control: this})
+		
 		if (this.first == null) { 
 			this.first = item
+			
 		} else {
 			let last = this.getLastItem()
-			last.setSuccessor(item)
+			last.setSuccessor({successor: item})
 		}
-		if(!this.isActive()) this.start()
+	}
+
+	onStop(props) {
+		this.isStopFlag = false
+		delete this.first
+		this.first = null
+		console.log("QUEUE: Reset")
+		this.session.gm.onActionCompletion()
 	}
 
 	onItemCompletion(props) {
-		console.log("QUEUE: onItemCompletion()")
+		console.log("QUEUE: Item Completed: " + props.item.name)
 		this.first = props.item.getSuccessor()
+		if (!this.first) this.onQueueCompletion()
 	}
 
 	onQueueCompletion(props) {
-		this.isActive = false
-		console.log("QUEUE: onQueueCompletion()")
+		this.isActiveFlag = false
+		console.log("QUEUE: End of the Queue")
+		this.session.gm.onActionCompletion()
 	}
 
 	isActive() {
-		return this.isActive
+		return this.isActiveFlag
 	}
 
 	getFirstItem(props) {
@@ -48,13 +69,13 @@ export class QueueController {
 
 	getLastItem(props) {
 		let last = null
-		
 		let current = this.getFirstItem()
 		if (current) {
 			let safety = 100
 			while (safety>0) {
 				safety--
 				let next = current.getSuccessor()
+
 				if (next) {
 					current = next
 				} else {

@@ -7,8 +7,8 @@ export class GameSession {
 	constructor(props) {
 		this.active = false
 		this.universe = props.universe
-		// this.queueController = new QueueController()
 		this.gm = props.gm
+		this.queueController = new QueueController({session: this})
 		this.gm.init({session: this})
 		this.currentLocation = null
 		this.players = []

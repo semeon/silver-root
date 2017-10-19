@@ -10,7 +10,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	}
 	
   onTouch(col) {
- 		logger.log("You see: " + this.p.name)
+ 		// logger.log("You see: " + this.p.name)
   }
 
 	linkModel(props) {

@@ -26,7 +26,6 @@ export class GameMaster {
 	}
 
 	do(props) {
-
 		if (this.isBusyFlag) {
 			logger.log("Game Master is busy at the moment")
 			return
@@ -46,15 +45,21 @@ export class GameMaster {
 				target: props.target, 
 				data: props.data, 
 				session: this.session, 
-				gm: this,
 				callback: this.onActionCompletion.bind(this) 
 			})
 		}
+		this.session.queueController.start()
+	}
+
+	abortAction() {
+		this.session.queueController.stop()
+		this.isBusyFlag = false
+		console.log("GM: Aborting current queue")
 	}
 	
 	onActionCompletion(props) {
 		this.isBusyFlag = false
-		console.log("acton completed callback")
+		console.log("GM: Queue has stopped")
 	}
 
 	buildPath(props) {

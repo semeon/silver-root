@@ -11,7 +11,10 @@ export class EventController {
 		
 		console.dir(this.context.gm)
 		
-		if ( this.context.gm.isBusy() ) return
+		if ( this.context.gm.isBusy() ) { 
+			this.context.gm.abortAction()
+			return
+		}
 		
 		let fromX = Q.pointToTile(this.context.selectedPlayer.p.x)
 		let fromY = Q.pointToTile(this.context.selectedPlayer.p.y)

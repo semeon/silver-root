@@ -3,26 +3,34 @@ import {logger} from 'logger'
 export class QueueItem {
 
 	constructor(props) {
-		this.action = props.action
+		this.transaction = props.transaction
+		this.name = props.name
 		this.queueController = props.control
+		this.delay = this.queueController.defaultDelay
+		if (props.delay) this.delay = props.delay
 		this.successor = null
 	}
 	
 	start(props) {
-		console.log("COR: START ITEM")
-		this.action(this.data)
-		this.onFinish()
+		let self = this
+
+		setTimeout( 
+			function() {	
+				if (self.queueController.isStopFlag) { 
+					self.onStop()
+					return
+				}
+				self.transaction( {callback: self.onFinish.bind(self) } )
+			}, self.delay)
 	}
 
 	onFinish(props) {
-		console.log("COR: END ITEM")
 		this.queueController.onItemCompletion({item: this})
+		if (this.successor) this.successor.start()
+	}
 
-		if (this.successor) {
-			this.successor.start()
-		} else {
-			this.queueController.onQueueCompletion()
-		}
+	onStop(props) {
+		this.queueController.onStop()
 	}
 
 	getSuccessor(props) {
