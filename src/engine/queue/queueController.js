@@ -14,8 +14,7 @@ export class QueueController {
 	}
 
 	start(props) {
-		console.log("QUEUE: start()")
-		console.dir(this.first)
+		logger.log("QUEUE: start()")
 		this.isActiveFlag = true
 		this.first.start()
 	}
@@ -23,11 +22,11 @@ export class QueueController {
 	stop(props) {
 		this.isStopFlag = true
 		this.first = null
-		console.log("QUEUE: Interruption")
+		logger.log("QUEUE: Interruption")
 	}
 
 	addItem(props) {
-		console.log("QUEUE: addItem()")
+		// console.log("QUEUE: addItem()")
 		let item = new QueueItem({transaction: props.transaction, name: props.name, control: this})
 		
 		if (this.first == null) { 
@@ -43,19 +42,19 @@ export class QueueController {
 		this.isStopFlag = false
 		delete this.first
 		this.first = null
-		console.log("QUEUE: Reset")
+		logger.log("QUEUE: Reset")
 		this.session.gm.onActionCompletion()
 	}
 
 	onItemCompletion(props) {
-		console.log("QUEUE: Item Completed: " + props.item.name)
+		logger.log("QUEUE: Item Completed: " + props.item.name)
 		this.first = props.item.getSuccessor()
 		if (!this.first) this.onQueueCompletion()
 	}
 
 	onQueueCompletion(props) {
 		this.isActiveFlag = false
-		console.log("QUEUE: End of the Queue")
+		logger.log("QUEUE: End of the Queue")
 		this.session.gm.onActionCompletion()
 	}
 
