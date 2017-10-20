@@ -13,7 +13,7 @@ export class UiController {
 	
 	setPath(props) {
 		this.clearPath()
-		this.path = this.stage.context.gm.buildPath(props)
+		this.path = props.path
 		this.drawPath()
 	}
 	

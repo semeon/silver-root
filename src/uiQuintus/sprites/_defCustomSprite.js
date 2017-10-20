@@ -4,8 +4,10 @@ import {Q} from 'qObject'
 
 Q.SpriteCustom = class extends Q.Sprite {
 
-	constructor(props) {
-		super(props)
+	constructor(p) {
+		if (!p) p = {}
+		if (!p.isCollidable) p.isCollidable = false
+		super(p)
 		this.on("touch", this, "onTouch")
 	}
 	

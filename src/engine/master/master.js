@@ -64,7 +64,6 @@ export class GameMaster {
 
 	buildPath(props) {
 		let path = null
-		props.matrix = this.session.currentLocation.collisionMatrix
 		path = this.pathfinder.find(props)
 		return path
 	}

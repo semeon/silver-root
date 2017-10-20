@@ -9,7 +9,6 @@ import './sprites/player.js'
 export class SpriteFactory {
   constructor(props) {
 		this.assets = props.assets
-		this.grid = props.grid
   }
 
 	createGround(props)	{
@@ -34,7 +33,7 @@ export class SpriteFactory {
 
 		for (let i=0; i<data.length; i++) {
 			let item = data[i]
-			let model = data[i].object
+			let model = data[i]
 			
 			let name = model.name
 			let sprite
@@ -53,8 +52,8 @@ export class SpriteFactory {
 
 			sprite.linkModel({model: model})
 			sprite.moveTo({
-				x: Q.tileToPoint(item.x), 
-				y: Q.tileToPoint(item.y)
+				x: Q.tileToPoint(model.getGridCoordinates().x), 
+				y: Q.tileToPoint(model.getGridCoordinates().y)
 			})
 
 			result.push(sprite)

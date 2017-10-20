@@ -67,6 +67,8 @@ export class SceneBuilder {
 			stage.add("viewport") //.follow(player)
 
 			stage.context = {}
+			stage.context.stage = stage
+			stage.context.locData = locData
 			stage.context.session = self.session
 			stage.context.gm = self.session.gm
 			stage.context.players = players

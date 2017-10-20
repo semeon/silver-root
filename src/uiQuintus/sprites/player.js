@@ -7,6 +7,7 @@ Q.PlayerSprite = class extends Q.SpriteCustom {
 			name: props.name,
 			sheet: "Player"
 		}
+		if (!p.isCollidable) p.isCollidable = true
 		super(p)
 	}
 

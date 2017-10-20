@@ -5,8 +5,9 @@ import {Q} from 'qObject'
 Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
 	constructor(p) {
 		if (!p) p = {
-			sheet: "Bush_1"			
+			sheet: "Bush_1"
 		}
+		if (!p.isCollidable) p.isCollidable = true
 		super(p)
 	}
 

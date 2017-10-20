@@ -1,6 +1,6 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
-
+const clone = require('clone')
 
 export class EventController {
   constructor(props) {
@@ -23,8 +23,19 @@ export class EventController {
 		let toX = Q.pointToTile(props.x)
 		let toY = Q.pointToTile(props.y)
 
-		this.context.uiController.setPath({	fromX: fromX,	fromY: fromY,	toX: toX,	toY: toY })
+		let stageItems = this.context.stage.index
+		let collisionMatrix = clone(this.context.locData.emptyGrid)
+
+		for(let i in stageItems) {
+			let item = stageItems[i]
+			if (item.p.isCollidable) {
+				let coord = item.p.model.getGridCoordinates()
+				collisionMatrix[coord.y][coord.x] = 1
+			}
+		}
 		
+		let path = this.context.gm.buildPath({	fromX: fromX,	fromY: fromY,	toX: toX,	toY: toY, matrix: collisionMatrix })
+		this.context.uiController.setPath({	path: path })
 		this.context.uiController.marker.hide()
 		this.context.uiController.marker.switchToGoTo()
 		this.context.uiController.marker.show({x: props.x, y: props.y})

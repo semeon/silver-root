@@ -89,15 +89,15 @@ class Generator {
 		let terrain = []
 		let creatures = []
 		let items = []
-		let collisionMatrix = []
+		let emptyGrid = []
 				
     for (var y = 0; y < height; y++) {
 
-			collisionMatrix[y] = []
+			emptyGrid[y] = []
 			
       for (var x = 0; x < width; x++)  {
 
-				collisionMatrix[y][x] = 0
+				emptyGrid[y][x] = 0
 				
 				if (x>2) {
 					if (dice.rollBool(10)) {   // terrain?
@@ -107,16 +107,14 @@ class Generator {
 						} else {
 							obj = this.generateBush()							
 						}
-						terrain.push({object: obj, x: x, y: y})
-						collisionObjects.push({object: obj, x: x, y: y})
-						collisionMatrix[y][x] = 1
+						obj.setGridCoordinates({x: x, y: y})
+						terrain.push(obj)
 
 					// actor?
-					} else if (dice.rollBool(3)) { // creature?
+					} else if (dice.rollBool(5)) { // creature?
 						let obj = this.generateCreature()
-						creatures.push({object: obj, x: x, y: y})
-						// collisionObjects.push({object: obj, x: x, y: y})
-						// collisionMatrix[y][x] = 1
+						obj.setGridCoordinates({x: x, y: y})
+						creatures.push(obj)
 					}
 				} 
       }
@@ -136,8 +134,7 @@ class Generator {
 			creatures: creatures,
 			items: items,
 			
-			collisionObjects: collisionObjects,
-			collisionMatrix: collisionMatrix,
+			emptyGrid: emptyGrid
 		}
 		
 		return loc
