@@ -14,23 +14,35 @@ export class QueueItem {
 	start(props) {
 		let self = this
 
+		if (self.queueController.isAbortFlag) { 
+			self.onAbort({reason: "Action aborted"})
+			return
+		}
+
 		setTimeout( 
 			function() {	
-				if (self.queueController.isStopFlag) { 
-					self.onStop()
+				if (self.queueController.isAbortFlag) { 
+					self.onAbort({reason: "Action aborted"})
 					return
 				}
-				self.transaction( {callback: self.onFinish.bind(self) } )
+				self.transaction()
+				self.onTransactionFinish()
 			}, self.delay)
 	}
 
-	onFinish(props) {
-		this.queueController.onItemCompletion({item: this})
-		if (this.successor) this.successor.start()
+	onTransactionFinish(props) {
+		// this.queueController.onItemCompletion({item: this})
+		logger.log("QUEUE ITEM: Completed " + this.name)		
+
+		if (this.successor) {
+			this.successor.start()
+		} else {
+			this.queueController.onQueueCompletion()
+		}
 	}
 
-	onStop(props) {
-		this.queueController.onStop()
+	onAbort(props) {
+		this.queueController.onAbort(props)
 	}
 
 	getSuccessor(props) {

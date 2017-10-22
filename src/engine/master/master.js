@@ -11,7 +11,6 @@ export class GameMaster {
 		this.session = null
 		
 		this.isBusyFlag = false
-		this.currentCallback = null
 	}
 	
 	init(props) {
@@ -28,43 +27,53 @@ export class GameMaster {
 
 	do(props) {
 		if (this.isBusyFlag) {
-			logger.log("Game Master is busy at the moment")
+			logger.log("Game Master is busy at the moment; please call later.")
 			return
 		}
 
-		let actionId = props.action
-		let action = this.actions[actionId]
-		this.currentCallback = props.callback
-		
-		if (!action) {
-			logger.log("Game Master does not approve this action: " + actionId)
-		} else {
-			this.isBusyFlag = true
-			logger.log("Game Master is performing action: " + actionId)
+		let actionKey = props.action
+		let action = this.actions[actionKey]
 
-			action({ 
-				actor: props.actor, 
-				target: props.target, 
-				data: props.data, 
-				session: this.session, 
-				success: this.onActionCompletion.bind(this)
-			})
-		}
+		if (!action) {
+			let error = "Game Master does not approve this action: " + actionKey
+			props.fail({reason: error})
+			return
+		} 
+
+		this.isBusyFlag = true
+
+		// queue props
+		let success = props.success
+		let fail = props.fail
+		this.session.queueController.setCallback({success: success, fail: fail})
+
+		// action props
+		let actor = props.actor
+		let target = props.target
+		let data = props.data
+		
+		action({ 
+			actor: props.actor, 
+			target: props.target, 
+			data: props.data, 
+			session: this.session
+		})
+
 		this.session.queueController.start()
 	}
 
 	abortAction() {
 		console.log("GM: Aborting current queue")
-		this.session.queueController.stop()
-		// this.isBusyFlag = false
-		// this.currentCallback()
+		this.session.queueController.abort()
 	}
 	
 	onActionCompletion(props) {
-		console.log("GM: Queue has stopped")
-		this.currentCallback()
+		console.log("GM: Action finished")
 		this.isBusyFlag = false
 	}
+
+
+	// GM Routines
 
 	buildPath(props) {
 		let path = null
@@ -72,6 +81,17 @@ export class GameMaster {
 		return path
 	}
 
+	calculateDistance(props) {
+		let distance = null
+		let from = props.from
+		let to = props.to
+		
+		let dx = from.x - to.x
+		let dy = from.y - to.y
+		distance = Math.sqrt( Math.pow(dx, 2) + Math.pow(dy, 2) )
+		
+		return distance
+	}
 
 	customFlow1(props) {
 		for (let i=0; i<2; i++) {

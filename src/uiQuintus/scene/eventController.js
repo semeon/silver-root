@@ -85,14 +85,20 @@ export class EventController {
 		
 		this.context.uiController.clearPath()
 		// this.context.uiController.marker.hide()
+
 		this.context.gm.do({
 			action: "walk",
 			actor: this.context.selectedPlayer.p.model,
 			target: coord,
-			data: path,
-			callback: function() {
+			data: {path: path},
+			success: function(props) {
+				console.log("WALK success callback")
 				self.context.uiController.clearPath()
 				self.context.uiController.marker.hide()
+			},
+			fail: function(props) {
+				console.log("WALK fail callback")
+				if (props) logger.dir(props)
 			}
 		})
 	}
@@ -104,8 +110,47 @@ export class EventController {
 		logger.log(m)
 	}
 
+
+	// ===========================================================================
+	onSwitchingToAttack(props) {
+		let actor = this.context.selectedPlayer
+		let target = this.target
+		
+		let distance = this.context.gm.calculateDistance({
+			from: actor.getGridCoordinates(),
+			to: target.getGridCoordinates()
+		})
+		
+		console.log("Attack Mode is ON:")
+		console.log(" --  Actor: " + actor.p.name + " [" + actor.getGridCoordinates().x + ", " +  actor.getGridCoordinates().y + "]")
+		console.log(" -- Target: " + target.p.name + " [" + target.getGridCoordinates().x + ", " +  target.getGridCoordinates().y + "]")
+		console.log(" --   Dist: " + distance + " m")
+		
+	}
+
+	// ===========================================================================
 	onAttackMarkerTouch(props) {
 		console.log("ATTACK! Target: " + this.target.p.name)
+
+		let self = this
+
+		let actor = this.context.selectedPlayer
+		let target = this.target
+
+		this.context.gm.do({
+			action: "attack",
+			actor: actor.p.model,
+			target: target.p.model,
+			data: null,
+			success: function(props) {
+				console.log("ATTACK success callback")
+			},
+			fail: function(props) {
+				console.log("ATTACK fail callback")
+				if (props) logger.dir(props)
+			}
+		})
+		
 	}
 
 

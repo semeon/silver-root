@@ -8,19 +8,34 @@ export class QueueController {
 	constructor(props) {
 		this.session = props.session
 		this.first = null
+
 		this.isActiveFlag = false
-		this.isStopFlag = false
+		this.isAbortFlag = false
+
+		this.onSuccess = {}
+		this.onFail = {}
 		this.defaultDelay = 500
 	}
 
+	setCallback(props) {
+		this.onSuccess = props.success
+		this.onFail = props.fail
+	}
+	
 	start(props) {
 		logger.log("QUEUE: start()")
 		this.isActiveFlag = true
-		this.first.start()
+		
+		if(!this.first) {
+			this.onAbort({reason: "Queue is empty"})
+			
+		} else {
+			this.first.start()
+		}
 	}
 
-	stop(props) {
-		this.isStopFlag = true
+	abort(props) {
+		this.isAbortFlag = true
 		this.first = null
 		logger.log("QUEUE: Interruption")
 	}
@@ -38,25 +53,32 @@ export class QueueController {
 		}
 	}
 
-	onStop(props) {
-		this.isStopFlag = false
-		delete this.first
-		this.first = null
-		logger.log("QUEUE: Reset")
-		this.session.gm.onActionCompletion()
-	}
-
-	onItemCompletion(props) {
-		logger.log("QUEUE: Item Completed: " + props.item.name)
-		this.first = props.item.getSuccessor()
-		if (!this.first) this.onQueueCompletion()
+	onAbort(props) {
+		logger.log("QUEUE: Aborting Action")
+		this.onFail({reason: props.reason})
+		this.resetQueue()
 	}
 
 	onQueueCompletion(props) {
-		this.isActiveFlag = false
 		logger.log("QUEUE: End of the Queue")
+		this.onSuccess()
+		this.resetQueue()
+	}
+
+	resetQueue(props) {
+		logger.log("QUEUE: Reseting Queue")
+		delete this.first
+		this.first = null
+
+		this.onSuccess = {}
+		this.onFail = {}
+		
+		this.isAbortFlag = false
+		this.isActiveFlag = false
+
 		this.session.gm.onActionCompletion()
 	}
+
 
 	isActive() {
 		return this.isActiveFlag

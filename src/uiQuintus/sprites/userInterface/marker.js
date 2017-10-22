@@ -43,6 +43,7 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 
 	switchToAttack() {
 		this.p.frame = 2
+		this.stage.context.eventController.onSwitchingToAttack({ marker: this })
 	}
 
 	getCurrentState() {
