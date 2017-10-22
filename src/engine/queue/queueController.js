@@ -12,14 +12,14 @@ export class QueueController {
 		this.isActiveFlag = false
 		this.isAbortFlag = false
 
-		this.onSuccess = {}
-		this.onFail = {}
+		this.onSuccess = function(){}
+		this.onFail = function(){}
 		this.defaultDelay = 500
 	}
 
 	setCallback(props) {
-		this.onSuccess = props.success
-		this.onFail = props.fail
+		if (props.success) this.onSuccess = props.success
+		if (props.fail) this.onFail = props.fail
 	}
 	
 	start(props) {
@@ -57,12 +57,14 @@ export class QueueController {
 		logger.log("QUEUE: Aborting Action")
 		this.onFail({reason: props.reason})
 		this.resetQueue()
+		this.session.gm.onActionCompletion()		
 	}
 
 	onQueueCompletion(props) {
 		logger.log("QUEUE: End of the Queue")
 		this.onSuccess()
 		this.resetQueue()
+		this.session.gm.onActionCompletion()
 	}
 
 	resetQueue(props) {
@@ -70,13 +72,11 @@ export class QueueController {
 		delete this.first
 		this.first = null
 
-		this.onSuccess = {}
-		this.onFail = {}
+		this.onSuccess = function(){}
+		this.onFail = function(){}
 		
 		this.isAbortFlag = false
 		this.isActiveFlag = false
-
-		this.session.gm.onActionCompletion()
 	}
 
 

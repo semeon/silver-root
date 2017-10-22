@@ -97,8 +97,9 @@ export class EventController {
 				self.context.uiController.marker.hide()
 			},
 			fail: function(props) {
-				console.log("WALK fail callback")
-				if (props) logger.dir(props)
+				let m = "WALK Action failed" 
+				if (props && props.reason) m = m + ": " + props.reason
+				logger.log(m)
 			}
 		})
 	}
@@ -146,8 +147,9 @@ export class EventController {
 				console.log("ATTACK success callback")
 			},
 			fail: function(props) {
-				console.log("ATTACK fail callback")
-				if (props) logger.dir(props)
+				let m = "ATTACK Action failed" 
+				if (props && props.reason) m = m + ": " + props.reason
+				logger.log(m)
 			}
 		})
 		
