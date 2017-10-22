@@ -49,15 +49,12 @@ export class EventController {
 			this.context.gm.abortAction()
 			return
 		}
-		
-		let fromX = Q.pointToTile(this.context.selectedPlayer.p.x)
-		let fromY = Q.pointToTile(this.context.selectedPlayer.p.y)
-		let toX = Q.pointToTile(props.tile.p.x)
-		let toY = Q.pointToTile(props.tile.p.y)
 
+		let from = this.context.selectedPlayer.getGridCoordinates()
+		let to = props.tile.getGridCoordinates()
 		let path = this.context.gm.buildPath({	
-			fromX: fromX,	fromY: fromY,	
-			toX: toX,	toY: toY, 
+			fromX: from.x,	fromY: from.y,	
+			toX: to.x,	toY: to.y, 
 			matrix: this.context.collisionMatrix.update() 
 		})
 		this.context.uiController.setPath({	path: path })
@@ -86,7 +83,7 @@ export class EventController {
 		let coord = marker.getGridCoordinates() // {x: .., y: .. }
 		let path = this.context.uiController.path
 		
-		// this.context.uiController.clearPath()
+		this.context.uiController.clearPath()
 		// this.context.uiController.marker.hide()
 		this.context.gm.do({
 			action: "walk",
@@ -96,7 +93,6 @@ export class EventController {
 			callback: function() {
 				self.context.uiController.clearPath()
 				self.context.uiController.marker.hide()
-				
 			}
 		})
 	}
