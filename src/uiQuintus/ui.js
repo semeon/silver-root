@@ -1,12 +1,14 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-import './sprites/_defCustomSprite.js'
-import './sprites/groundLayer.js'
-import './sprites/areaObjects.js'
-import './sprites/player.js'
-import './sprites/marker.js'
-import './sprites/uiElements.js'
+// ALL SPRITES
+import './sprites/gameObjects/_defCustomSprite.js'
+import './sprites/gameObjects/groundLayer.js'
+import './sprites/gameObjects/areaObjects.js'
+import './sprites/gameObjects/player.js'
+
+import './sprites/userInterface/marker.js'
+import './sprites/userInterface/uiElements.js'
 
 import {AssetLoader} from './assetLoader.js'
 import {SceneBuilder} from './sceneBuilder.js'
