@@ -1,11 +1,13 @@
 // UI Implementation using Quintus
-
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
 import {SpriteFactory} from './spriteFactory.js'
 import {UiController} from './uiController.js'
 import {EventController} from './eventController.js'
+
+import {CollisionMatrix} from './collisionMatrix.js'
+
 
 export class SceneBuilder {
   constructor(props) {
@@ -59,24 +61,36 @@ export class SceneBuilder {
 			// Order is important for displaying the sprites!
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
+			stage.insert(marker)
 			for (let i=0; i<players.length; i++) 	stage.insert(players[i])
 			for (let i=0; i<players.length; i++) 	stage.insert(players[i].p.hl)
+				
 
 
-			stage.insert(marker)
 			stage.add("viewport") //.follow(player)
 
 			stage.context = {}
+
 			stage.context.stage = stage
-			stage.context.locData = locData
 			stage.context.session = self.session
 			stage.context.gm = self.session.gm
 			stage.context.players = players
 			stage.context.uiController = new UiController({ stage: stage, marker: marker, spriteFactory: self.spriteFactory})
 			stage.context.eventController = new EventController({ context: stage.context })
+			stage.context.locData = locData
+			stage.context.collisionMatrix = new CollisionMatrix({stage: stage})
+			stage.context.collisionMatrix.update()
+
 			players[0].select()
 
+			Q.el.addEventListener('keydown', function(e) {
+				stage.context.eventController.onKeyDown({event: e})
+			})
+
+
 		})
+
+
 	}
 
 

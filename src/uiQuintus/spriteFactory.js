@@ -113,5 +113,25 @@ export class SpriteFactory {
 		return step
 	}
 
+
+	createInfoContainer(props) {
+		let container = new Q.UI.Container({
+		      fill: "gray",
+		      border: 1,
+		      shadow: 0,
+		      shadowColor: "rgba(0,0,0,0.5)",
+		      y: 0,
+		      x: 0
+		    })
+		container.hide()	
+		return container
+	}
+
+	createInfoLabel(props)	{
+		let label = new Q.InfoLabel({ x: 0, y: 0, labelText: "DEFAULT" })
+		label.hide()
+		return label
+	}
+
 	
 }

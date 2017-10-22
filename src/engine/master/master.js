@@ -11,6 +11,7 @@ export class GameMaster {
 		this.session = null
 		
 		this.isBusyFlag = false
+		this.currentCallback = null
 	}
 	
 	init(props) {
@@ -33,7 +34,8 @@ export class GameMaster {
 
 		let actionId = props.action
 		let action = this.actions[actionId]
-
+		this.currentCallback = props.callback
+		
 		if (!action) {
 			logger.log("Game Master does not approve this action: " + actionId)
 		} else {
@@ -55,11 +57,13 @@ export class GameMaster {
 		this.session.queueController.stop()
 		this.isBusyFlag = false
 		console.log("GM: Aborting current queue")
+		this.currentCallback()
 	}
 	
 	onActionCompletion(props) {
 		this.isBusyFlag = false
 		console.log("GM: Queue has stopped")
+		this.currentCallback()
 	}
 
 	buildPath(props) {

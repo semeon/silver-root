@@ -13,7 +13,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	
   onTouch(col) {
  		// logger.log("You see: " + this.p.name)
-		this.stage.context.eventController.onAnyTouch()
+		this.stage.context.eventController.onAnyGameObjectTouch({target: this})
   }
 
 	linkModel(props) {
@@ -28,6 +28,14 @@ Q.SpriteCustom = class extends Q.Sprite {
 	moveTo(props) {
 		this.p.x = props.x
 		this.p.y = props.y
+	}
+	
+	getGridCoordinates(props) {
+		let coord = {
+			x: Q.pointToTile(this.p.x),
+			y: Q.pointToTile(this.p.y)
+		}
+		return coord
 	}
 
 }

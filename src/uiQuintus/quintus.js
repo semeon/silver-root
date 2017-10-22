@@ -22,6 +22,9 @@ let setup = {
 
 export let Q = Quintus(options).include("Sprites, Scenes, Input, Touch, UI, 2D").setup("gameUi", setup).touch(0xFFFF)
 
+// Q.input.keyboardControls()
+Q.controls()
+
 Q.CONST = {
 	tileSize: 32
 }

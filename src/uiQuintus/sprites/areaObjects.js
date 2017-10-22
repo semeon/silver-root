@@ -13,9 +13,7 @@ Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
 
 	onTouch(col) {
 		super.onTouch(col)
-		this.stage.context.marker.hide()
-		this.stage.context.marker.switchToExamine()
-		this.stage.context.marker.show({x: this.p.x, y: this.p.y})
+		this.stage.context.eventController.onAreaObjectTouch({ areaObject: this })
 	}
 }
 
