@@ -56,11 +56,11 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 			this.stage.context.eventController.onGotoMarkerTouch({ marker: this })			
 
 		} else if (this.getCurrentState() == "examine") {
-				this.stage.context.eventController.onExamineMarkerTouch({ marker: this })
+			this.stage.context.eventController.onExamineMarkerTouch({ marker: this })
 
 		} else if (this.getCurrentState() == "attack") {
-				this.stage.context.eventController.onAttackMarkerTouch({ marker: this })
-				console.log()
+			this.stage.context.eventController.onAttackMarkerTouch({ marker: this })
+			console.log()
 			
 		} else {
 			
