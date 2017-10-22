@@ -1,9 +1,5 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
-import './sprites/_defCustomSprite.js'
-
-import './sprites/areaObjects.js'
-import './sprites/player.js'
 
 
 export class SpriteFactory {

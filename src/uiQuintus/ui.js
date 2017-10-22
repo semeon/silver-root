@@ -10,8 +10,9 @@ import './sprites/gameObjects/player.js'
 import './sprites/userInterface/marker.js'
 import './sprites/userInterface/uiElements.js'
 
+
 import {AssetLoader} from './assetLoader.js'
-import {SceneBuilder} from './sceneBuilder.js'
+import {SceneBuilder} from './scene/sceneBuilder.js'
 
 export class UI {
   constructor(props) {
