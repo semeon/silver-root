@@ -68,7 +68,7 @@ export class GameMaster {
 	}
 	
 	onActionCompletion(props) {
-		console.log("GM: Action finished")
+		// console.log("GM: Action finished")
 		this.isBusyFlag = false
 	}
 

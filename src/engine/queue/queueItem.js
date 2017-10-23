@@ -32,7 +32,7 @@ export class QueueItem {
 
 	onTransactionFinish(props) {
 		// this.queueController.onItemCompletion({item: this})
-		logger.log("QUEUE ITEM: Completed " + this.name)		
+		// logger.log("QUEUE ITEM: Completed " + this.name)
 
 		if (this.successor) {
 			this.successor.start()

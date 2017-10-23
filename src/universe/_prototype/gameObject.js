@@ -55,18 +55,25 @@ export class GameObject {
   }
 
 	dodgeThrow() {
-		return false
+		return {success: false}
 	}
 
 	receiveAttack(props) {
 		// props.damage, props.critical
 		this.takeDamage({damage: props.attack.damage})
 
-		let message = " - "
+		let message = ""
 		message += this.getName() + " was"
 		if (props.attack.critical) message = message + " critically"
 		message += " hit for " + props.attack.damage + " HP"
-		logger.log({m: message})
+
+		// let message = ""
+		// message += props.attack.source.getName()
+		// if (props.attack.critical) message = message + " critically"
+		// message += " hits " + this.getName()
+		// message += " for " + props.attack.damage + " HP"
+
+		logger.log(message)
 	}
 	
 	linkSprite(props) {

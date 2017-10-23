@@ -23,7 +23,7 @@ export class QueueController {
 	}
 	
 	start(props) {
-		logger.log("QUEUE: start()")
+		// logger.log("QUEUE: start()")
 		this.isActiveFlag = true
 		
 		if(!this.first) {
@@ -37,7 +37,7 @@ export class QueueController {
 	abort(props) {
 		this.isAbortFlag = true
 		this.first = null
-		logger.log("QUEUE: Interruption")
+		// logger.log("QUEUE: Interruption")
 	}
 
 	addItem(props) {
@@ -54,21 +54,21 @@ export class QueueController {
 	}
 
 	onAbort(props) {
-		logger.log("QUEUE: Aborting Action")
+		// logger.log("QUEUE: Aborting Action")
 		this.onFail({reason: props.reason})
 		this.resetQueue()
 		this.session.gm.onActionCompletion()		
 	}
 
 	onQueueCompletion(props) {
-		logger.log("QUEUE: End of the Queue")
+		// logger.log("QUEUE: End of the Queue")
 		this.onSuccess()
 		this.resetQueue()
 		this.session.gm.onActionCompletion()
 	}
 
 	resetQueue(props) {
-		logger.log("QUEUE: Reseting Queue")
+		// logger.log("QUEUE: Reseting Queue")
 		delete this.first
 		this.first = null
 

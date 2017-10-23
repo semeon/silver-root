@@ -43,7 +43,6 @@ Actor.prototype.getDT = Abilities.getDT
 import {CombatActions} from './combatActions.js'
 Actor.prototype.attackThrow = CombatActions.attackThrow
 Actor.prototype.dodgeThrow = CombatActions.dodgeThrow
-// Actor.prototype.receiveAttack = CombatActions.receiveAttack
 
 
 // Debug

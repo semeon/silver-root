@@ -10,21 +10,27 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 			name: "Marker",
 			sheet: "Marker",
 			frame: 1,
-			clicks: 0
+			isActive: false
 		}
 		super(p)
 	}
 	
 	hide() {
 		super.hide()
+		this.p.isActive = false
 		this.moveTo({x: -100, y: -100})
 	}
 
 	show(props) {
 		this.moveTo({x: props.x, y: props.y})
+		this.p.isActive = true
 		super.show()
 	}
 
+	isActive(props) {
+		return this.p.isActive
+	}
+	
 	toggle(props) {
 		if (this.getCurrentState() == "examine") {
 			this.switchToAttack()

@@ -31,4 +31,8 @@ export class UiController {
 		this.pathSprites.forEach(function(element) {   element.destroy()	});		
 	}
 	
+	reset(props) {
+		this.marker.hide()
+		this.clearPath()
+	}
 }

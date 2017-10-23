@@ -117,6 +117,8 @@ export class EventController {
 		let actor = this.context.selectedPlayer
 		let target = this.target
 		
+		if (!this.context.uiController.marker.isActive()) return
+		
 		let distance = this.context.gm.calculateDistance({
 			from: actor.getGridCoordinates(),
 			to: target.getGridCoordinates()
@@ -131,8 +133,6 @@ export class EventController {
 
 	// ===========================================================================
 	onAttackMarkerTouch(props) {
-		console.log("ATTACK! Target: " + this.target.p.name)
-
 		let self = this
 
 		let actor = this.context.selectedPlayer
@@ -144,7 +144,13 @@ export class EventController {
 			target: target.p.model,
 			data: null,
 			success: function(props) {
-				console.log("ATTACK success callback")
+				// console.log("ATTACK success callback")
+
+				if (target.p.model.isDestroyed()) {
+					console.log(target.p.name + " is destroyed.")
+					target.destroy()
+					self.context.uiController.reset()
+				}
 			},
 			fail: function(props) {
 				let m = "ATTACK Action failed" 
