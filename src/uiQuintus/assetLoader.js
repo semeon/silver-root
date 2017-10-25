@@ -1,33 +1,26 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-// Environment assets
-import envDesertImg from 'assets/ui/env/desert/desert.png'
-import envDesertDataL from 'assets/ui/env/desert/desert_L.json'
-import envDesertDataM from 'assets/ui/env/desert/desert_M.json'
-import envDesertDataS from 'assets/ui/env/desert/desert_S.json'
-import envDesertDataXS from 'assets/ui/env/desert/desert_XS.json'
-
 // Player assets
-import playerImg from 'assets/ui/player/droid_32x32.png'
+import playerImg from 'graphics/player/droid_r2.png'
 
 // Area Obect Assets - Desert
 
-import groungDesert1Img from 'assets/ui/env/desert/desert_sand_1.png'
+import groungDesert1Img from 'graphics/env/desert/desert_sand_1.png'
 
-import aoDesertBush1Img from 'assets/ui/env/desert/desert_object_bush_1.png'
-import aoDesertBush2Img from 'assets/ui/env/desert/desert_object_bush_2.png'
-import aoDesertBush3Img from 'assets/ui/env/desert/desert_object_bush_3.png'
-import aoDesertBush4Img from 'assets/ui/env/desert/desert_object_bush_4.png'
-import aoDesertBush5Img from 'assets/ui/env/desert/desert_object_bush_5.png'
-import aoDesertBush6Img from 'assets/ui/env/desert/desert_object_cactus.png'
+import aoDesertBush1Img from 'graphics/env/desert/desert_object_bush_1.png'
+import aoDesertBush2Img from 'graphics/env/desert/desert_object_bush_2.png'
+import aoDesertBush3Img from 'graphics/env/desert/desert_object_bush_3.png'
+import aoDesertBush4Img from 'graphics/env/desert/desert_object_bush_4.png'
+import aoDesertBush5Img from 'graphics/env/desert/desert_object_bush_5.png'
+import aoDesertBush6Img from 'graphics/env/desert/desert_object_cactus.png'
 
-import aoDesertRock1Img from 'assets/ui/env/desert/desert_object_rock.png'
+import aoDesertRock1Img from 'graphics/env/desert/desert_object_rock.png'
 
 // User Interface
-import uiMarker1Img from 'assets/ui/ui/marker.png'
-import uiPathStep1Img from 'assets/ui/ui/pathStep.png'
-import uiPlayerHighlight1Img from 'assets/ui/ui/playerHighlight.png'
+import uiMarker1Img 					from 'graphics/ui/marker.png'
+import uiPathStep1Img 				from 'graphics/ui/pathStep.png'
+import uiPlayerHighlight1Img 	from 'graphics/ui/playerHighlight.png'
 
 
 
@@ -121,12 +114,6 @@ export class AssetLoader {
 		this.assets["aoBush6Img"] = aoDesertBush6Img
 
 		this.assets["aoRock1Img"] = aoDesertRock1Img
-
-		this.assets["envImg"] = envDesertImg
-
-
-
-		
 	}
 	
 }

@@ -31,14 +31,12 @@ Q.CONST = {
 
 Q.tileToPoint = function (props) {
 	// Returns pixel coordinates
-	// Tile 1 returns the point in the centre of the tile - 48
 	let result = props * Q.CONST.tileSize + Q.CONST.tileSize/2
 	return result
 }
 
 Q.pointToTile = function (props) {
 	// Returns Tile number
-	// Point 48 returns the tile that has this point - tile 1
 	let result = Math.floor( props / Q.CONST.tileSize )
 	return result
 }
