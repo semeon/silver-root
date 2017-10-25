@@ -27,16 +27,6 @@ Q.SpriteBush_1 = class extends Q.SpriteAreaObjectDefault {
 	}
 }
 
-Q.SpriteBush_2 = class extends Q.SpriteAreaObjectDefault {
-	constructor(props) {
-		let p = {
-			name: "Bush",
-			sheet: "Bush_2"
-		}
-		super(p)
-	}
-}
-
 Q.SpriteRock_1 = class extends Q.SpriteAreaObjectDefault {
 	constructor(props) {
 		let p = {
