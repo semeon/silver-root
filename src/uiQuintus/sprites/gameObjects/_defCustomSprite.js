@@ -30,6 +30,10 @@ Q.SpriteCustom = class extends Q.Sprite {
 		this.p.y = props.y
 	}
 	
+	isCollidable() {
+		return this.p.isCollidable
+	}
+	
 	getGridCoordinates(props) {
 		let coord = {
 			x: Q.pointToTile(this.p.x),

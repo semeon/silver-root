@@ -32,19 +32,36 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 	}
 	
 	toggle(props) {
-		if (this.getCurrentState() == "examine") {
-			this.switchToAttack()
-		} else if (this.getCurrentState() == "attack") {
+		
+		let target = props.target
+		
+		if (this.getCurrentState() == "goto") {
 			this.switchToExamine()
+
+		} else if (this.getCurrentState() == "examine") {
+			this.switchToAttack()
+
+		} else if (this.getCurrentState() == "attack") {
+			
+			console.dir(target)
+			
+			if ( !target.isCollidable() ) {
+				this.switchToGoTo()
+
+			} else {
+				this.switchToExamine()
+			}
 		}
 	}
 
 	switchToGoTo() {
 		this.p.frame = 0
+		this.stage.context.eventController.onSwitchingToGoTo({ marker: this })
 	}
 
 	switchToExamine() {
 		this.p.frame = 1
+		this.stage.context.eventController.onSwitchingToExamine({ marker: this })
 	}
 
 	switchToAttack() {

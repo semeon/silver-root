@@ -10,7 +10,9 @@ export class GameObject {
 		this.assetId = props.assetId
 		this.hpMax = props.hpMax
 		this.hp = this.hpMax
+
 		this.destructable = true
+		this.destroyed = false
 
 		this.location = null
 		this.gridCoordinates = null
@@ -25,17 +27,14 @@ export class GameObject {
 		return this.name
 	}
 
+	// Hit points
+	// ====================
 	getHp() {
 		return this.hp
 	}
 
 	getHpMax() {
 		return this.hpMax
-	}
-
-	isDestroyed() {
-		let result = this.destructable && this.hp<=0
-		return result
 	}
 
   increaseHP(props) {
@@ -46,34 +45,52 @@ export class GameObject {
     }
   }
 
+	// Taking Damage
+	// ====================
+
+	receiveAttack(props) {
+		// props.damage, props.critical
+		let message = ""
+		if (!this.isDestructuble()) {
+			message += this.getName() + " cannot be damaged."
+			
+		} else {
+			this.takeDamage({damage: props.attack.damage})
+			message += this.getName() + " was"
+			if (props.attack.critical) message = message + " critically"
+			message += " hit for " + props.attack.damage + " HP"
+		}
+		logger.log(message)
+	}
+	
+	isDestructuble() {
+		return this.destructable
+	}
+
   takeDamage(props) {
+		if (!this.isDestructuble()) return
+			
     if ( (this.hp - props.damage) <= 0 ) {
       this.hp = 0
+			this.onDestroy()
     } else {
       this.hp -= props.damage
     }
   }
 
-	dodgeThrow() {
-		return {success: false}
+	onDestroy() {
+		if (this.sprite) this.sprite.onDestroy() // MUST BE CALLED BEFORE THE OBJ IS DESTROYED
+		this.destroyed = true
 	}
 
-	receiveAttack(props) {
-		// props.damage, props.critical
-		this.takeDamage({damage: props.attack.damage})
+	isDestroyed() {
+		return this.destroyed
+	}
 
-		let message = ""
-		message += this.getName() + " was"
-		if (props.attack.critical) message = message + " critically"
-		message += " hit for " + props.attack.damage + " HP"
 
-		// let message = ""
-		// message += props.attack.source.getName()
-		// if (props.attack.critical) message = message + " critically"
-		// message += " hits " + this.getName()
-		// message += " for " + props.attack.damage + " HP"
 
-		logger.log(message)
+	dodgeThrow() {
+		return {success: false}
 	}
 	
 	linkSprite(props) {

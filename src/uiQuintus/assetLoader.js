@@ -2,15 +2,21 @@ import {logger} from 'logger'
 import {Q} from 'qObject'
 
 // Player assets
-import playerImg from 'graphics/player/droid_r2.png'
+import playerImg from 'graphics/player/character_001.png'
+
+
+// Area Obect Assets - Generic
+import groundGeneric1Img from 'graphics/env/generic/generic_ground_1.png'
+import aoGenericBush1Img from 'graphics/env/generic/generic_object_bush_1.png'
+import aoGenericRock1Img from 'graphics/env/generic/generic_object_rock.png'
+
 
 // Area Obect Assets - Desert
-
-import groungDesert1Img from 'graphics/env/desert/desert_sand_1.png'
-
+import groundDesert1Img from 'graphics/env/desert/desert_ground_1.png'
 import aoDesertBush1Img from 'graphics/env/desert/desert_object_bush_1.png'
-
 import aoDesertRock1Img from 'graphics/env/desert/desert_object_rock.png'
+
+
 
 // User Interface
 import uiMarker1Img 					from 'graphics/ui/marker.png'
@@ -41,8 +47,12 @@ export class AssetLoader {
 		let areaSize = locData.areaSize
 		
 		switch(environment) {
+		    case "generic":
+					this.loadGenericAssets()
+		      break
+
 		    case "desert":
-					this.loadDesertAssets({areaSize: areaSize})
+					this.loadDesertAssets()
 	        break
 
 		    default:
@@ -91,15 +101,22 @@ export class AssetLoader {
 		this.callback({assets: this.assets})
 	}
 	
-	loadDesertAssets(props) {
-		let areaSize = props.areaSize
-
-		this.assets["groundTileImg"] = groungDesert1Img
-
+	loadGenericAssets(props) {
 		this.assets["uiMarker"] = uiMarker1Img
 		this.assets["uiPathStep"] = uiPathStep1Img
 		this.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
 
+		this.assets["groundTileImg"] = groundGeneric1Img
+		this.assets["aoBush1Img"] = aoGenericBush1Img
+		this.assets["aoRock1Img"] = aoGenericRock1Img
+	}
+
+	loadDesertAssets(props) {
+		this.assets["uiMarker"] = uiMarker1Img
+		this.assets["uiPathStep"] = uiPathStep1Img
+		this.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
+
+		this.assets["groundTileImg"] = groundDesert1Img
 		this.assets["aoBush1Img"] = aoDesertBush1Img
 		this.assets["aoRock1Img"] = aoDesertRock1Img
 	}

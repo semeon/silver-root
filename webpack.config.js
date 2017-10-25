@@ -14,7 +14,6 @@ let assets = path.join(__dirname, '/assets/')
 
 let graphics = path.join(__dirname, '/assets/graphics/x32')
 // let graphics = path.join(__dirname, '/assets/graphics/x48')
-// let graphics = path.join(__dirname, '/assets/graphics/x64')
 
 let utils = path.join(__dirname, '/src/utils/')
 let dice = path.join(__dirname, '/src/utils/dice.js')

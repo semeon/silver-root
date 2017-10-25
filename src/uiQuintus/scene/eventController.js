@@ -8,7 +8,10 @@ export class EventController {
 		this.target = null
   }	
 
-	
+	resetState() {
+		this.target = null
+		this.context.uiController.reset()
+	}
 	
 	onAnyGameObjectTouch(props) {
 		this.target = props.target
@@ -20,13 +23,16 @@ export class EventController {
 
 	// ===========================================================================
 	onKeyDown(props) {
+		if (!this.target) return
+
 		let event = props.event
 		console.dir(event)
 		let code = event.code
+
 		
 		switch(code) {
 		    case "Space":
-						this.context.uiController.marker.toggle()
+						this.context.uiController.marker.toggle({target: this.target})
 		        break
 		    default:
 		}
@@ -41,11 +47,13 @@ export class EventController {
 			let player = this.context.players[i].hideHl()
 		}
 		props.player.select()
+		this.resetState()
 	}
 	
 	
 	// ===========================================================================
 	onEmptyTileTouch(props){
+			console.dir(props)
 		
 		if ( this.context.gm.isBusy() ) {
 			this.context.gm.abortAction()
@@ -109,7 +117,11 @@ export class EventController {
 
 	// ===========================================================================
 	onExamineMarkerTouch(props) {
-		this.target.p.model.onExamine()
+		if (this.target && this.target.p && this.target.p.model) {
+			this.target.p.model.onExamine()
+		} else {
+			logger.log("You see nothing.")
+		}
 	}
 
 
@@ -118,7 +130,8 @@ export class EventController {
 		let actor = this.context.selectedPlayer
 		let target = this.target
 		
-		if (!this.context.uiController.marker.isActive()) return
+		this.context.uiController.clearPath()
+		// if (!this.context.uiController.marker.isActive()) return
 		
 		let distance = this.context.gm.calculateDistance({
 			from: actor.getGridCoordinates(),
@@ -132,6 +145,31 @@ export class EventController {
 		
 	}
 
+
+	// ===========================================================================
+	onSwitchingToGoTo(props) {
+		if (!this.target || !this.target.p.isCollidable) {
+			console.dir(this.target)
+
+			let from = this.context.selectedPlayer.getGridCoordinates()
+			let to = this.target.getGridCoordinates()
+			let path = this.context.gm.buildPath({	
+				fromX: from.x,	fromY: from.y,	
+				toX: to.x,	toY: to.y, 
+				matrix: this.context.collisionMatrix.update() 
+			})
+
+			this.context.uiController.setPath({	path: path })			
+			this.context.uiController.drawPath(props)
+			// this.onEmptyTileTouch({tile: this.target})
+		}
+	}
+
+	// ===========================================================================
+	onSwitchingToExamine(props) {
+		this.context.uiController.clearPath()
+	}
+
 	// ===========================================================================
 	onAttackMarkerTouch(props) {
 		let self = this
@@ -139,26 +177,33 @@ export class EventController {
 		let actor = this.context.selectedPlayer
 		let target = this.target
 
-		this.context.gm.do({
-			action: "attack",
-			actor: actor.p.model,
-			target: target.p.model,
-			data: null,
-			success: function(props) {
-				// console.log("ATTACK success callback")
+		if (this.target && this.target.p && this.target.p.model) {
 
-				if (target.p.model.isDestroyed()) {
-					console.log(target.p.name + " is destroyed.")
-					target.destroy()
-					self.context.uiController.reset()
+			this.context.gm.do({
+				action: "attack",
+				actor: actor.p.model,
+				target: target.p.model,
+				data: null,
+				success: function(props) {
+					// console.log("ATTACK success callback")
+
+					if (target.p.model.isDestroyed()) {
+						console.log(target.p.name + " is destroyed.")
+						self.context.uiController.reset()
+					}
+				},
+				fail: function(props) {
+					let m = "ATTACK Action failed" 
+					if (props && props.reason) m = m + ": " + props.reason
+					logger.log(m)
 				}
-			},
-			fail: function(props) {
-				let m = "ATTACK Action failed" 
-				if (props && props.reason) m = m + ": " + props.reason
-				logger.log(m)
-			}
-		})
+			})
+
+
+		} else {
+			logger.log("There is no taget.")
+		}
+
 		
 	}
 

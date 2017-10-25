@@ -23,6 +23,12 @@ export class Attack extends Action {
 			result.success = false
 			result.error = "The target is out of range."
 		}
+
+		if ( this.target.isDestroyed() ) {
+			result.success = false
+			result.error = "The target is already destroyed."
+		}
+
 		return result
 	}	
 
@@ -33,10 +39,11 @@ export class Attack extends Action {
 		let transaction = function(props) {
 			let attack = self.actor.attackThrow()
 			let dodge = self.target.dodgeThrow()
+			let damageTaken = 0
 			if (dodge && dodge.success) {
 				// nothing
 			} else {
-				self.target.receiveAttack({attack: attack, source: self.actor})
+				damageTaken = self.target.receiveAttack({attack: attack, source: self.actor})
 			}
 			console.log( self.target.name + ": " + self.target.getHp() + "/" + self.target.getHpMax() + " HP" )
 		}
