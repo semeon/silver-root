@@ -97,6 +97,11 @@ export class GameObject {
 	getGridCoordinates(props) {
 		return this.gridCoordinates
 	}
+	
+	onExamine() {
+		logger.log("You see: " + this.getName())
+		logger.log(this.getName() + " has " + this.getHp() + "/" + this.getHpMax() + " HP")
+	}
 
 }
 

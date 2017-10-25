@@ -18,6 +18,7 @@ export class EventController {
 		this.context.uiController.marker.hide()
 	}
 
+	// ===========================================================================
 	onKeyDown(props) {
 		let event = props.event
 		console.dir(event)
@@ -30,6 +31,7 @@ export class EventController {
 		    default:
 		}
 	}	
+
 
 	// ===========================================================================
 	onPlayerTouch(props) {
@@ -107,8 +109,7 @@ export class EventController {
 
 	// ===========================================================================
 	onExamineMarkerTouch(props) {
-		let m = "You see " + this.target.p.name
-		logger.log(m)
+		this.target.p.model.onExamine()
 	}
 
 
