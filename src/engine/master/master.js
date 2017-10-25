@@ -1,5 +1,5 @@
 import {logger} from 'logger'
-// import {ActionFactory} from '../action/actionsFactory.js'
+import {ActionFactory} from '../action/actionFactory.js'
 
 
 export class GameMaster {
@@ -31,35 +31,33 @@ export class GameMaster {
 			return
 		}
 
-		let actionKey = props.action
-		let action = this.actions[actionKey]
-
-		if (!action) {
-			let error = "Game Master does not approve this action: " + actionKey
-			props.fail({reason: error})
-			return
-		} 
-
-		this.isBusyFlag = true
-
-		// queue props
-		let success = props.success
-		let fail = props.fail
-		this.session.queueController.setCallback({success: success, fail: fail})
-
-		// action props
-		let actor = props.actor
-		let target = props.target
-		let data = props.data
-		
-		action({ 
+		let actionProps = {
+			actionKey: props.action,
 			actor: props.actor, 
 			target: props.target, 
 			data: props.data, 
 			session: this.session
-		})
+		}
 
+		let action = ActionFactory.createInstance(actionProps)
+
+		if (!action) {
+			let error = "Game Master does not approve this action: " + props.action
+			props.fail({reason: error})
+			return
+		} 
+		let preconditionTest = action.preconditionTest()
+		if (!preconditionTest.success) {
+			props.fail({reason: preconditionTest.error})
+			return
+		} 
+    
+		// queue props
+    this.isBusyFlag = true
+		action.perform()
+		this.session.queueController.setCallback({success: props.success, fail: props.fail})
 		this.session.queueController.start()
+		
 	}
 
 	abortAction() {

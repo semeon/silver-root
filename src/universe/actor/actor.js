@@ -17,12 +17,18 @@ export class Actor extends GameObject {
 		this.type = "actor"
 		this.cotrol = props.control
 		this.special = props.special
-		this.hpMax = hpMax
+		this.hp = hpMax
+		
+		this.defaultAttackDistance = 1.5
 	}
 	
   isAlive() {
     return this.hp>0
   }
+	
+	attackDistance() {
+		return this.defaultAttackDistance
+	}
 }
 
 

@@ -1,12 +1,27 @@
 import {logger} from 'logger'
-import {Action} from '../action/_action.js'
-import {actionSet} from './actionSet.js'
+import {Attack} from './actions/attack.js'
+import {Walk} from './actions/walk.js'
 
-export class ActionFactory {
+export let ActionFactory = {
+	
 
 	createInstance(props) {
 		
+		let actionInstance = null
+		let actionKey = props.actionKey
 
+		switch(actionKey) {
+	    case "attack":
+	      actionInstance = new Attack (props)
+        break
+
+	    case "walk":
+	      actionInstance = new Walk (props)
+				break
+		}
+		
+		return actionInstance
 	}
 	
 }
+

@@ -2,49 +2,45 @@ import {dice} from 'dice'
 import {logger} from 'logger'
 import {Action} from './_action.js'
 
-export class ActionWalk extends Action {
+export class Walk extends Action {
 
 	constructor(props) {
-  	super({
-			id: "step", 
-			name: "step", 
-			caption: "attacks", 
-			data: props.data
-		})
-		// this.data = props.data
+		if (!props) props = {}
+		props.name = "Attack"
+  	super(props)
 	}
 	
-	action(props) {
-		super.action()
+	
+	preconditionTest() {
+		let result = {success: true, error: ""}
+		return result
+	}	
 
-		let actor = props.actor
-		let target = props.target
-		let path = props.data
-		let session = props.session
+	
+	perform(props) {
+		let self = this
+
+		let path = self.data.path
 
 		console.log("Action started: WALK")
-		console.log(" --   actor: " + actor.name)
-		console.log(" --  target: ")
-		console.dir(target)
+		console.log(" --   actor: " + self.actor.name)
+		console.log(" --  target: " + path[path.length-1])
 	
-		for (let i=0; i<path.length; i++) {
+		for (let i=1; i<path.length; i++) {
 
-			setTimeout(function(){
+			let step = path[i]
+			let name = "Step " + i
+		
+			let transaction = function(props) {
 				let step = path[i]
-				let from = actor.getGridCoordinates()
+				let from = self.actor.getGridCoordinates()
 				let to = step
-				console.log(" --  STEP " + i )
-				console.dir(step)
-				actor.setGridCoordinates({x: step[0], y: step[1]})
-			}, (i+1) * 500)
-
+				// console.log(" --  " + name )
+				self.actor.setGridCoordinates({x: step[0], y: step[1]})
+			}
+			self.session.queueController.addItem({transaction: transaction, name: name})
 		}
-	
-		super.complete()
 
-
-		console.log("Action ended: WALK")
 	}
-	
 
 }
