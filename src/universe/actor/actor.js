@@ -14,7 +14,7 @@ export class Actor extends GameObject {
 			assetId: props.assetId,
 			hpMax: hpMax
 		})
-		this.type = "actor"
+		this.type = "creature"
 		this.cotrol = props.control
 		this.special = props.special
 		this.hp = hpMax
@@ -28,6 +28,10 @@ export class Actor extends GameObject {
 	
 	attackDistance() {
 		return this.defaultAttackDistance
+	}
+	
+	getControl() {
+		return this.control
 	}
 }
 

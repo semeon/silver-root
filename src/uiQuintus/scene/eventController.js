@@ -1,11 +1,13 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
+
 const clone = require('clone')
 
 export class EventController {
   constructor(props) {
 		this.context = props.context
 		this.target = null
+		this.hover = null
   }	
 
 	resetState() {
@@ -22,17 +24,27 @@ export class EventController {
 	}
 
 	// ===========================================================================
+	onMouseMove(props) {
+		let newObject = props.sprite
+
+		if ( this.hover && this.hover === newObject ) {
+			
+		} else {
+			this.hover = newObject
+			this.context.uiController.updateStateOnHover({hover: this.hover})
+		}
+	}
+
+
+	// ===========================================================================
 	onKeyDown(props) {
 		if (!this.target) return
 
 		let event = props.event
-		console.dir(event)
 		let code = event.code
-
-		
 		switch(code) {
 		    case "Space":
-						this.context.uiController.marker.toggle({target: this.target})
+						let marker = this.context.uiController.marker.toggle({target: this.target})
 		        break
 		    default:
 		}

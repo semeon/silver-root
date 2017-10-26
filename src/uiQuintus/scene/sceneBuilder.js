@@ -11,9 +11,8 @@ import {CollisionMatrix} from './collisionMatrix.js'
 
 export class SceneBuilder {
   constructor(props) {
-		this.assets
 		this.session
-		this.spriteFactory = new SpriteFactory({assets: this.assets})
+		this.spriteFactory = new SpriteFactory()
   }	
 
 	setSession(props) {
@@ -22,15 +21,13 @@ export class SceneBuilder {
 
 	start(props) {
 		logger.log("Scene Builder started.")
-		this.assets = props.assets
 		this.initScene()
 		this.startScene()
 	}
 
-
 	initScene(props) {
 		let self = this
-		let assets = this.assets
+		let assets = Q.assets
 		let locData = this.session.currentLocation
 
 		logger.log("Creating sprites instances..")
@@ -85,6 +82,18 @@ export class SceneBuilder {
 
 			Q.el.addEventListener('keydown', function(e) {
 				stage.context.eventController.onKeyDown({event: e})
+			})
+
+			Q.el.addEventListener('mousemove', function(e) {
+					let x = e.offsetX || e.layerX
+        	let y = e.offsetY || e.layerY
+					let stageX = Q.canvasToStageX(x, stage)
+        	let	stageY = Q.canvasToStageY(y, stage)
+					let obj = stage.locate(stageX, stageY)
+					
+			    if(obj) {
+						stage.context.eventController.onMouseMove({event: e, sprite: obj})
+			    }
 			})
 
 

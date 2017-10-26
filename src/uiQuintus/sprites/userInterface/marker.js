@@ -35,6 +35,7 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 		
 		let target = props.target
 		
+		
 		if (this.getCurrentState() == "goto") {
 			this.switchToExamine()
 
@@ -52,6 +53,8 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 				this.switchToExamine()
 			}
 		}
+		
+		return markerStates[this.p.frame]
 	}
 
 	switchToGoTo() {

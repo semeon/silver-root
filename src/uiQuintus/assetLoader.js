@@ -23,12 +23,19 @@ import uiMarker1Img 					from 'graphics/ui/marker.png'
 import uiPathStep1Img 				from 'graphics/ui/pathStep.png'
 import uiPlayerHighlight1Img 	from 'graphics/ui/playerHighlight.png'
 
+import uiCursorGoTo 		from 'graphics/ui/cursor_goto.png'
+import uiCursorExamine 	from 'graphics/ui/cursor_examine.png'
+import uiCursorAttack 	from 'graphics/ui/cursor_attack.png'
+import uiCursorInteract from 'graphics/ui/cursor_interact.png'
+
+import uiCursorSelect 	from 'graphics/ui/cursor_goto.png'
+import uiCursorTalk			from 'graphics/ui/cursor_goto.png'
+
 
 
 export class AssetLoader {
   constructor(props) {
 		this.session
-		this.assets = {}
 		this.callback = props.callback
   }	
 
@@ -45,29 +52,78 @@ export class AssetLoader {
 		let locData = this.session.currentLocation
 		let environment = locData.environment
 		let areaSize = locData.areaSize
+
+		this.loadCommonAssets()
 		
 		switch(environment) {
 		    case "generic":
-					this.loadGenericAssets()
+					this.loadGenericEnvAssets()
 		      break
 
 		    case "desert":
-					this.loadDesertAssets()
+					this.loadDesertEnvAssets()
 	        break
 
 		    default:
 					this.loadDesertAssets()
 		}
+	}
 
-		this.assets["playerImg"] = playerImg
+	createSpriteSheets() {
+		logger.log("Creating sprite sheets..")
+
+		// Ground
+		Q.sheet("GroundTile_1", Q.assets["groundTileImg"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		// Objects
+		Q.sheet("Bush_1", Q.assets["aoBush1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("Rock_1",	Q.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		// UI
+		Q.sheet("Marker", Q.assets["uiMarker"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("PathStep", Q.assets["uiPathStep"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("PlayerHighlight", Q.assets["uiPlayerHighlight"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		// Creatures
+		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		
+		this.onFinish()
+	}
+
+
+	loadCommonAssets(props) {
+		Q.assets["playerImg"] = playerImg
+		
+		Q.assets["uiMarker"] = uiMarker1Img
+		Q.assets["uiPathStep"] = uiPathStep1Img
+		Q.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
+
+		Q.assets["uiCursorGoTo"] = uiCursorGoTo
+		Q.assets["uiCursorExamine"] = uiCursorExamine
+		Q.assets["uiCursorAttack"] = uiCursorAttack
+		Q.assets["uiCursorInteract"] = uiCursorInteract
+		Q.assets["uiCursorSelect"] = uiCursorSelect
+		Q.assets["uiCursorTalk"] = uiCursorTalk
+	}
+	
+	loadGenericEnvAssets(props) {
+		Q.assets["groundTileImg"] = groundGeneric1Img
+		Q.assets["aoBush1Img"] = aoGenericBush1Img
+		Q.assets["aoRock1Img"] = aoGenericRock1Img
+	}
+
+	loadDesertEnvAssets(props) {
+		Q.assets["groundTileImg"] = groundDesert1Img
+		Q.assets["aoBush1Img"] = aoDesertBush1Img
+		Q.assets["aoRock1Img"] = aoDesertRock1Img
 	}
 
 	preload(props) {
 		let self = this
 
-		for (let i in this.assets) {
+		for (let i in Q.assets) {
 			// logger.log("Loading asset: " + this.assets[i])
-			Q.preload(this.assets[i])
+			Q.preload(Q.assets[i])
 		}
 
 		Q.preload(function() {
@@ -76,49 +132,8 @@ export class AssetLoader {
 		})
 	}
 
-	createSpriteSheets() {
-		logger.log("Creating sprite sheets..")
-
-		// Ground
-		Q.sheet("GroundTile_1", this.assets["groundTileImg"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-
-		// Objects
-		Q.sheet("Bush_1", this.assets["aoBush1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		Q.sheet("Rock_1",	this.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-
-		// UI
-		Q.sheet("Marker", this.assets["uiMarker"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		Q.sheet("PathStep", this.assets["uiPathStep"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		Q.sheet("PlayerHighlight", this.assets["uiPlayerHighlight"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-
-		// Creatures
-		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		
-		this.onFinish()
-	}
-
 	onFinish() {
-		this.callback({assets: this.assets})
-	}
-	
-	loadGenericAssets(props) {
-		this.assets["uiMarker"] = uiMarker1Img
-		this.assets["uiPathStep"] = uiPathStep1Img
-		this.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
-
-		this.assets["groundTileImg"] = groundGeneric1Img
-		this.assets["aoBush1Img"] = aoGenericBush1Img
-		this.assets["aoRock1Img"] = aoGenericRock1Img
-	}
-
-	loadDesertAssets(props) {
-		this.assets["uiMarker"] = uiMarker1Img
-		this.assets["uiPathStep"] = uiPathStep1Img
-		this.assets["uiPlayerHighlight"] = uiPlayerHighlight1Img
-
-		this.assets["groundTileImg"] = groundDesert1Img
-		this.assets["aoBush1Img"] = aoDesertBush1Img
-		this.assets["aoRock1Img"] = aoDesertRock1Img
+		this.callback({assets: Q.assets})
 	}
 	
 }

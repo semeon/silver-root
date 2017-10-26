@@ -1,4 +1,6 @@
 import {logger} from 'logger'
+
+let rootNodeId = "gameUi"
 let Quintus = require('quintus')
 
 let options = {
@@ -20,13 +22,16 @@ let setup = {
 	scaleToFit: false
 }
 
-export let Q = Quintus(options).include("Sprites, Scenes, Input, Touch, UI, 2D").setup("gameUi", setup).touch(0xFFFF)
+export let Q = Quintus(options).include("Sprites, Scenes, Input, Touch, UI, 2D").setup(rootNodeId, setup).touch(0xFFFF)
 
 // Q.input.keyboardControls()
 Q.controls()
 
+Q.assets = {}
+
 Q.CONST = {
-	tileSize: 32
+	tileSize: 32,
+	rootNodeId: rootNodeId
 }
 
 Q.tileToPoint = function (props) {

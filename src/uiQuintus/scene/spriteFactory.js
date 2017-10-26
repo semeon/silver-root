@@ -4,7 +4,6 @@ import {Q} from 'qObject'
 
 export class SpriteFactory {
   constructor(props) {
-		this.assets = props.assets
   }
 
 	createGround(props)	{

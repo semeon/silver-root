@@ -186,6 +186,9 @@ class Generator {
 		special.A = dice.rollD10().value
 		special.L = dice.rollD10().value
 		
+		let control = props.control
+		if (!props.control) control = "ai"
+		
 		let char = new Actor({id: id, name: props.name, control: "ai", special: special, assetId: props.assetId})
 		
 		// char.print({special: true, health: true, attack: true, defense: true})
