@@ -22,10 +22,20 @@ export class CursorController {
   }	
 
 	updateState(props) {
+		
+		// console.log("UPDATE CURSOR, x: " + this.lastCoords.x + ", y:  " + this.lastCoords.y)
+		
 		let type = ""
-		if (props && props.hover) this.hoverTarget = props.hover
-		if ( !this.hoverTarget ) this.hoverTarget = this.ui.stage.locate(this.lastCoords.x, this.lastCoords.y)
-		if ( this.hoverTarget ) type = this.hoverTarget.getType()
+		if (props && props.hover) {
+			this.hoverTarget = props.hover
+		}
+		if ( !this.hoverTarget ) {
+			this.hoverTarget = this.ui.stage.locate(this.lastCoords.x, this.lastCoords.y)
+		}
+
+		if ( this.hoverTarget ) {
+			type = this.hoverTarget.getType()
+		} 
 
 		// console.log("Type: " + type)
 
@@ -48,16 +58,15 @@ export class CursorController {
 			state = "goto"  		
 
 		} else if (type == "marker") {
-			// state = "goto"
 			let markerState = this.ui.getMarkerState()
-			console.log("sss: " + markerState)
-			state = markerState
+			state = this.ui.getMarkerState()
 
 		} else { 
 			state = "examine"
 		}
 		
 		this.setState({state: state})
+		
 	}
 
 	toggleState(props) {
@@ -89,7 +98,8 @@ export class CursorController {
 	
 	reset() {
 		this.state = this.defaultState
-		this.updateCursor()
+		this.hoverTarget = null
+		this.updateState()
 	}
 	
 	updateCursor(props) {
@@ -97,7 +107,7 @@ export class CursorController {
 	}
 
 	updateCoords(props) {
-		this.coords = props.coords
+		this.lastCoords = props.coords
 	}
 	
 }

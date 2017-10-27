@@ -29,7 +29,6 @@ export class UiController {
 		return this.cursor.getState()
 	}
 	updateCursor(props) {
-		// this.marker.reset()
 		this.cursor.updateState(props)
 	}
 	toggleCursor(props) {
@@ -37,8 +36,10 @@ export class UiController {
 		this.resetPath()
 		this.cursor.toggleState(props)
 	}
+	resetCursor(props) {
+		this.cursor.reset(props)
+	}
 	updateCursorCoords(props) {
-		// this.marker.reset()
 		this.cursor.updateCoords(props)
 	}
 	

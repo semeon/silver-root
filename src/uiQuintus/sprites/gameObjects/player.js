@@ -13,7 +13,6 @@ Q.PlayerSprite = class extends Q.SpriteCustom {
 
   onTouch(col) {
 		super.onTouch(col)
-		this.stage.context.eventController.onPlayerTouch({ player: this })
   }
 
 	linkHighlight(props) {
