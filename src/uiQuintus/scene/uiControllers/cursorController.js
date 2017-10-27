@@ -80,6 +80,10 @@ export class CursorController {
         break
 
 	    case "attack":
+				this.setState({ state: "goto" }) // change goto to interact
+        break
+
+	    case "interact":
 				this.setState({ state: "goto" })
         break
 		}

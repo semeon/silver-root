@@ -55,6 +55,14 @@ export class EventController {
 				break
 
 
+			// Interaction Request
+			// -----------------------------------------------------------------
+			case "interact":
+				console.log(">> You cannot use this.")
+
+				break
+
+
 			// Player Selection Request
 			// -----------------------------------------------------------------
 			case "select":
