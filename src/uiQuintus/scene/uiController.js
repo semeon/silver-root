@@ -2,69 +2,100 @@ import {logger} from 'logger'
 import {Q} from 'qObject'
 
 import {CursorController} from './uiControllers/cursorController.js'
+import {MarkerController} from './uiControllers/markerController.js'
+import {PathController} from './uiControllers/pathController.js'
 
 export class UiController {
   constructor(props) {
 		this.stage = props.stage
+		this.context = props.stage.context
 		this.spriteFactory = props.spriteFactory
 
-		this.states = ["goto", "examine", "attack", "interact"]
-
-		this.defaultState = 0
-		this.state = this.defaultState
-		this.stateName = this.states[this.state]
-
-		this.stateMap = {
-			
-		}
-
-
 		this.cursor = new CursorController({ui: this})
+		this.marker = new MarkerController({ui: this, marker: props.marker})
+
+		this.path = new PathController({ui: this})
 
 
-		this.marker = props.marker
-		this.pathSprites = []
-		this.path
-  }	
-	
-	updateStateOnHover(props) {
-		let hoverTarget = props.hover
-		let type = ""
-		if (hoverTarget.p.model) type = hoverTarget.p.model.type
-
-		if (type == "creature") 		{	this.setState({state: 2})	} 
-		else if (type == "terrain") { this.setState({state: 1}) } 
-		else 												{ this.setState({state: 0})	}
-	}
-	
-	setState(props) {
-		this.state = props.state
 		this.cursor.reset()
-	}
+		this.marker.reset()
+  }	
 
 
-	setPath(props) {
-		this.clearPath()
-		this.path = props.path
-		this.drawPath()
+
+	// CURSOR
+	// ----------------------------------------------------------------------
+	getCursorState(props) {
+		return this.cursor.getState()
+	}
+	updateCursor(props) {
+		// this.marker.reset()
+		this.cursor.updateState(props)
+	}
+	toggleCursor(props) {
+		this.resetMarker()
+		this.resetPath()
+		this.cursor.toggleState(props)
+	}
+	updateCursorCoords(props) {
+		// this.marker.reset()
+		this.cursor.updateCoords(props)
 	}
 	
-	drawPath(props) {
-		let pathSteps = this.path
-		for(let i=1; i<pathSteps.length; i++) {
-			let step = pathSteps[i]
-			let stepSprite = this.spriteFactory.createPathStep({x: step[0], y: step[1]})
-			this.pathSprites.push(stepSprite)
-			this.stage.insert(stepSprite)
-		}
-	}
 	
-	clearPath(props) {
-		this.pathSprites.forEach(function(element) {   element.destroy()	});		
-	}
 	
-	reset(props) {
-		this.marker.hide()
-		this.clearPath()
+	// MARKER
+	// ----------------------------------------------------------------------
+	getMarkerState(props) {
+		return this.marker.getState()
 	}
+	updateMarker(props) {
+		let cursorState = this.getCursorState()
+		this.marker.update({state: cursorState, coords: props.target.getPointCoordinates()})
+	} 
+	resetMarker(props) {
+		this.marker.reset()
+	} 
+
+
+
+
+	// PATH
+	// ----------------------------------------------------------------------
+	resetPath(props) {
+		this.path.reset()
+	}
+
+	showPath(props) {
+		let from = this.context.selectedPlayer.getGridCoordinates()
+		let to = props.target.getGridCoordinates()
+		let path = this.context.gm.buildPath({	
+			fromX: from.x,	fromY: from.y,	
+			toX: to.x,	toY: to.y, 
+			matrix: this.context.collisionMatrix.update() 
+		})
+		this.path.draw({path: path})
+	}
+	//
+	// setPath(props) {
+	// 	this.clearPath()
+	// 	this.path = props.path
+	// 	this.drawPath()
+	// }
+	//
+	// drawPath(props) {
+	// 	let pathSteps = this.path
+	// 	for(let i=1; i<pathSteps.length; i++) {
+	// 		let step = pathSteps[i]
+	// 		let stepSprite = this.spriteFactory.createPathStep({x: step[0], y: step[1]})
+	// 		this.pathSprites.push(stepSprite)
+	// 		this.stage.insert(stepSprite)
+	// 	}
+	// }
+	//
+	// clearPath(props) {
+	// 	this.pathSprites.forEach(function(element) {   element.destroy()	});
+	// }
+	
+
 }

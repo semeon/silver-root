@@ -4,16 +4,23 @@ import {Q} from 'qObject'
 
 export class PathController {
   constructor(props) {
-
+		this.pathSprites = []
+		this.stage = props.ui.stage
+		this.spriteFactory = props.ui.spriteFactory
   }	
 	
-	setPath(props) {
+	reset() {
 		this.clearPath()
+	}
+	
+	setPath(props) {
+		this.reset()
 		this.path = props.path
 		this.drawPath()
 	}
 	
-	drawPath(props) {
+	draw(props) {
+		this.path = props.path
 		let pathSteps = this.path
 		for(let i=1; i<pathSteps.length; i++) {
 			let step = pathSteps[i]
@@ -27,8 +34,4 @@ export class PathController {
 		this.pathSprites.forEach(function(element) {   element.destroy()	});		
 	}
 	
-	reset(props) {
-		this.marker.hide()
-		this.clearPath()
-	}
 }

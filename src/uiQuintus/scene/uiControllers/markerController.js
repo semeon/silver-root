@@ -4,31 +4,32 @@ import {Q} from 'qObject'
 
 export class MarkerController {
   constructor(props) {
-
+		this.sprite = props.marker
   }	
-	
-	setPath(props) {
-		this.clearPath()
-		this.path = props.path
-		this.drawPath()
-	}
-	
-	drawPath(props) {
-		let pathSteps = this.path
-		for(let i=1; i<pathSteps.length; i++) {
-			let step = pathSteps[i]
-			let stepSprite = this.spriteFactory.createPathStep({x: step[0], y: step[1]})
-			this.pathSprites.push(stepSprite)
-			this.stage.insert(stepSprite)
-		}
-	}
-	
-	clearPath(props) {
-		this.pathSprites.forEach(function(element) {   element.destroy()	});		
-	}
-	
+
 	reset(props) {
-		this.marker.hide()
-		this.clearPath()
+		this.sprite.hide()
+	}	
+
+	update(props) {
+		switch(props.state) {
+	    case "goto":
+				this.sprite.switchToGoTo()
+	      break
+
+	    case "examine":
+				this.sprite.switchToExamine()				
+        break
+
+	    case "attack":
+				this.sprite.switchToAttack()				
+        break
+		}
+		this.sprite.show(props.coords)
 	}
+
+	getState() {
+		return this.sprite.getCurrentState()
+	}
+
 }

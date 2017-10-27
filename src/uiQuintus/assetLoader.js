@@ -28,7 +28,7 @@ import uiCursorExamine 	from 'graphics/ui/cursor_examine.png'
 import uiCursorAttack 	from 'graphics/ui/cursor_attack.png'
 import uiCursorInteract from 'graphics/ui/cursor_interact.png'
 
-import uiCursorSelect 	from 'graphics/ui/cursor_goto.png'
+import uiCursorSelect 	from 'graphics/ui/cursor_select.png'
 import uiCursorTalk			from 'graphics/ui/cursor_goto.png'
 
 

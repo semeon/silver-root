@@ -13,7 +13,7 @@ Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
 
 	onTouch(col) {
 		super.onTouch(col)
-		this.stage.context.eventController.onAreaObjectTouch({ areaObject: this })
+		// this.stage.context.eventController.onAreaObjectTouch({ areaObject: this })
 	}
 
 	onDestroy(){

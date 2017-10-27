@@ -92,8 +92,15 @@ export class SceneBuilder {
 					let obj = stage.locate(stageX, stageY)
 					
 			    if(obj) {
-						stage.context.eventController.onMouseMove({event: e, sprite: obj})
+						stage.context.eventController.onMouseMove({
+							sprite: obj, 
+							coords: {x: stageX, y: stageY} 
+						})
 			    }
+			})
+
+			Q.el.addEventListener('contextmenu', function(e) {
+				console.log("EVENT")
 			})
 
 

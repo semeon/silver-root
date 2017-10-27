@@ -45,3 +45,4 @@ Q.pointToTile = function (props) {
 	let result = Math.floor( props / Q.CONST.tileSize )
 	return result
 }
+

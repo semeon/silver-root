@@ -6,7 +6,7 @@ export class Walk extends Action {
 
 	constructor(props) {
 		if (!props) props = {}
-		props.name = "Attack"
+		props.name = "Walk"
   	super(props)
 	}
 	
@@ -20,7 +20,18 @@ export class Walk extends Action {
 	perform(props) {
 		let self = this
 
-		let path = self.data.path
+		let from = this.actor.getGridCoordinates()
+		let to = this.target
+		let matrix = this.data.matrix
+		
+		let path = this.session.gm.buildPath({	
+			fromX: from.x,	fromY: from.y,	
+			toX: to.x,	toY: to.y, 
+			matrix: matrix 
+		})
+
+
+		// let path = self.data.path
 
 		console.log("Action started: WALK")
 		console.log(" --   actor: " + self.actor.name)

@@ -10,9 +10,15 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 			name: "Marker",
 			sheet: "Marker",
 			frame: 1,
-			isActive: false
+			isActive: false,
+			state: null
 		}
 		super(p)
+	}
+
+	getType() {
+		let type = "marker"
+		return type
 	}
 	
 	hide() {
@@ -30,55 +36,25 @@ Q.SpriteMarker = class extends Q.SpriteCustom {
 	isActive(props) {
 		return this.p.isActive
 	}
-	
-	toggle(props) {
-		
-		let target = props.target
-		
-		
-		if (this.getCurrentState() == "goto") {
-			this.switchToExamine()
-
-		} else if (this.getCurrentState() == "examine") {
-			this.switchToAttack()
-
-		} else if (this.getCurrentState() == "attack") {
-			
-			console.dir(target)
-			
-			if ( !target.isCollidable() ) {
-				this.switchToGoTo()
-
-			} else {
-				this.switchToExamine()
-			}
-		}
-		
-		return markerStates[this.p.frame]
-	}
 
 	switchToGoTo() {
 		this.p.frame = 0
-		this.stage.context.eventController.onSwitchingToGoTo({ marker: this })
 	}
 
 	switchToExamine() {
 		this.p.frame = 1
-		this.stage.context.eventController.onSwitchingToExamine({ marker: this })
 	}
 
 	switchToAttack() {
 		this.p.frame = 2
-		this.stage.context.eventController.onSwitchingToAttack({ marker: this })
 	}
 
 	getCurrentState() {
 		return markerStates[this.p.frame]
 	}
 
-	onTouch(col) {
+	onTouch(col, e) {
 		// super.onTouch(col)
-
 		if (this.getCurrentState() == "goto") {
 			this.stage.context.eventController.onGotoMarkerTouch({ marker: this })			
 

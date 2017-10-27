@@ -111,6 +111,10 @@ export class GameObject {
 		}
 	}
 
+	getType(props) {
+		return this.type
+	}
+
 	getGridCoordinates(props) {
 		return this.gridCoordinates
 	}

@@ -12,39 +12,100 @@ export class EventController {
 
 	resetState() {
 		this.target = null
-		this.context.uiController.reset()
+		// this.context.uiController.reset()
 	}
 	
 	onAnyGameObjectTouch(props) {
 		this.target = props.target
+		if ( !this.target ) return
+
 		if ( this.context.gm.isBusy() ) this.context.gm.abortAction()
-		console.log("!!! ANY TOUCH !!! Target: " + this.target.p.name)
-		this.context.uiController.clearPath()
-		this.context.uiController.marker.hide()
+		console.log("!!! ANY TOUCH !!! Target: " + this.target.getName())
+
+		this.context.uiController.resetMarker()
+		this.context.uiController.resetPath()
+		let cursorState = this.context.uiController.getCursorState()
+
+		switch (cursorState) {
+
+			//  GoTo Request
+			// -----------------------------------------------------------------
+			case "goto":
+				if ( !this.target.isCollidable() ) {
+					this.context.uiController.updateMarker({ target: this.target })
+					this.context.uiController.showPath({target: this.target})
+				} else {
+					console.log(">> Cannot get there.")
+				}
+				break
+
+			// Examine Request
+			// -----------------------------------------------------------------
+			case "examine":
+				this.target.onExamine()
+				break
+
+
+			// Attack Request
+			// -----------------------------------------------------------------
+			case "attack":
+				this.context.uiController.updateMarker({target: this.target})
+				this.prepareAttack()
+				break
+
+
+			// Player Selection Request
+			// -----------------------------------------------------------------
+			case "select":
+				if (this.target.p.model.getControl() == "player") {
+					for (let i=0; i<this.context.players.length; i++) {
+						this.context.players[i].hideHl()
+					}
+					this.target.select()
+				}
+
+				break
+
+			default: 
+
+			
+		}
+
+
+
 	}
 
 	// ===========================================================================
 	onMouseMove(props) {
 		let newObject = props.sprite
+		this.context.uiController.updateCursorCoords({ coords: props.coords })
 
 		if ( this.hover && this.hover === newObject ) {
 			
 		} else {
 			this.hover = newObject
-			this.context.uiController.updateStateOnHover({hover: this.hover})
+			this.context.uiController.updateCursor({ hover: this.hover })
 		}
 	}
 
-
+	// ===========================================================================
+	// onRightMouseClick(props) {
+	// 	this.context.uiController.resetMarker()
+	// 	this.context.uiController.toggleCursor()
+	// }
+	
 	// ===========================================================================
 	onKeyDown(props) {
 		if (!this.target) return
 
 		let event = props.event
 		let code = event.code
+		console.log("Key Down: " + code)
 		switch(code) {
 		    case "Space":
-						let marker = this.context.uiController.marker.toggle({target: this.target})
+						// let marker = this.context.uiController.marker.toggle({target: this.target})
+						this.context.uiController.resetMarker()
+						this.context.uiController.toggleCursor()
 		        break
 		    default:
 		}
@@ -52,47 +113,48 @@ export class EventController {
 
 
 	// ===========================================================================
-	onPlayerTouch(props) {
-		if ( this.context.gm.isBusy() ) return
-
-		for (let i=0; i<this.context.players.length; i++) {
-			let player = this.context.players[i].hideHl()
-		}
-		props.player.select()
-		this.resetState()
-	}
+	// onPlayerTouch(props) {
+	// 	if ( this.context.gm.isBusy() ) return
+	//
+	// 	for (let i=0; i<this.context.players.length; i++) {
+	// 		let player = this.context.players[i].hideHl()
+	// 	}
+	// 	props.player.select()
+	// 	this.resetState()
+	// }
 	
 	
 	// ===========================================================================
-	onEmptyTileTouch(props){
-			console.dir(props)
-		
-		if ( this.context.gm.isBusy() ) {
-			this.context.gm.abortAction()
-			return
-		}
-
-		let from = this.context.selectedPlayer.getGridCoordinates()
-		let to = props.tile.getGridCoordinates()
-		let path = this.context.gm.buildPath({	
-			fromX: from.x,	fromY: from.y,	
-			toX: to.x,	toY: to.y, 
-			matrix: this.context.collisionMatrix.update() 
-		})
-		this.context.uiController.setPath({	path: path })
-		this.context.uiController.marker.hide()
-		this.context.uiController.marker.switchToGoTo()
-		this.context.uiController.marker.show({x: props.tile.p.x, y: props.tile.p.y})
-	}
+	// onEmptyTileTouch(props){
+	// 	if ( this.context.gm.isBusy() ) {
+	// 		this.context.gm.abortAction()
+	// 		return
+	// 	}
+	// 	let tile = this.target
+	// 	let from = this.context.selectedPlayer.getGridCoordinates()
+	// 	let to = tile.getGridCoordinates()
+	// 	let path = this.context.gm.buildPath({
+	// 		fromX: from.x,	fromY: from.y,
+	// 		toX: to.x,	toY: to.y,
+	// 		matrix: this.context.collisionMatrix.update()
+	// 	})
+	//
+	// 	this.context.uiController.updateMarker({state: "goto", target: tile})
+	// 	this.context.uiController.showPath({target: this.target})
+	//
+	// }
 
 
 
 	// ===========================================================================
-	onAreaObjectTouch(props) {
-		this.context.uiController.marker.hide()
-		this.context.uiController.marker.switchToExamine()
-		this.context.uiController.marker.show({x: props.areaObject.p.x, y: props.areaObject.p.y})		
-	}
+	// onAreaObjectTouch(props) {
+	//
+	// 	this.context.uiController.updateMarker({target: props.areaObject})
+	//
+	// 	// this.context.uiController.marker.hide()
+	// 	// this.context.uiController.marker.switchToExamine()
+	// 	// this.context.uiController.marker.show({x: props.areaObject.p.x, y: props.areaObject.p.y})
+	// }
 
 
 
@@ -103,20 +165,18 @@ export class EventController {
 		let self = this
 		let marker = props.marker
 		let coord = marker.getGridCoordinates() // {x: .., y: .. }
-		let path = this.context.uiController.path
 		
-		this.context.uiController.clearPath()
-		// this.context.uiController.marker.hide()
+		this.context.uiController.resetPath()
 
 		this.context.gm.do({
 			action: "walk",
 			actor: this.context.selectedPlayer.p.model,
 			target: coord,
-			data: {path: path},
+			data: {matrix: this.context.collisionMatrix.update()},
 			success: function(props) {
 				console.log("WALK success callback")
-				self.context.uiController.clearPath()
-				self.context.uiController.marker.hide()
+				self.context.uiController.resetPath()
+				self.context.uiController.resetMarker()
 			},
 			fail: function(props) {
 				let m = "WALK Action failed" 
@@ -134,52 +194,6 @@ export class EventController {
 		} else {
 			logger.log("You see nothing.")
 		}
-	}
-
-
-	// ===========================================================================
-	onSwitchingToAttack(props) {
-		let actor = this.context.selectedPlayer
-		let target = this.target
-		
-		this.context.uiController.clearPath()
-		// if (!this.context.uiController.marker.isActive()) return
-		
-		let distance = this.context.gm.calculateDistance({
-			from: actor.getGridCoordinates(),
-			to: target.getGridCoordinates()
-		})
-		
-		console.log("Attack Mode is ON:")
-		console.log(" --  Actor: " + actor.p.name + " [" + actor.getGridCoordinates().x + ", " +  actor.getGridCoordinates().y + "]")
-		console.log(" -- Target: " + target.p.name + " [" + target.getGridCoordinates().x + ", " +  target.getGridCoordinates().y + "]")
-		console.log(" --   Dist: " + distance + " m")
-		
-	}
-
-
-	// ===========================================================================
-	onSwitchingToGoTo(props) {
-		if (!this.target || !this.target.p.isCollidable) {
-			console.dir(this.target)
-
-			let from = this.context.selectedPlayer.getGridCoordinates()
-			let to = this.target.getGridCoordinates()
-			let path = this.context.gm.buildPath({	
-				fromX: from.x,	fromY: from.y,	
-				toX: to.x,	toY: to.y, 
-				matrix: this.context.collisionMatrix.update() 
-			})
-
-			this.context.uiController.setPath({	path: path })			
-			this.context.uiController.drawPath(props)
-			// this.onEmptyTileTouch({tile: this.target})
-		}
-	}
-
-	// ===========================================================================
-	onSwitchingToExamine(props) {
-		this.context.uiController.clearPath()
 	}
 
 	// ===========================================================================
@@ -200,8 +214,9 @@ export class EventController {
 					// console.log("ATTACK success callback")
 
 					if (target.p.model.isDestroyed()) {
-						console.log(target.p.name + " is destroyed.")
-						self.context.uiController.reset()
+						console.log(target.getName() + " is destroyed.")
+						self.context.uiController.resetMarker()
+						self.context.uiController.updateCursor()
 					}
 				},
 				fail: function(props) {
@@ -215,9 +230,25 @@ export class EventController {
 		} else {
 			logger.log("There is no taget.")
 		}
-
-		
 	}
+
+
+	
+
+	// ===========================================================================
+	prepareAttack(props) {
+		let actor = this.context.selectedPlayer
+		let target = this.target
+		let distance = this.context.gm.calculateDistance({ from: actor.getGridCoordinates(), 	to: target.getGridCoordinates()	})
+		
+		console.log("Attack Mode is ON:")
+		console.log(" --  Actor: " + actor.getName() + " [" + actor.getGridCoordinates().x + ", " +  actor.getGridCoordinates().y + "]")
+		console.log(" -- Target: " + target.getName() + " [" + target.getGridCoordinates().x + ", " +  target.getGridCoordinates().y + "]")
+		console.log(" --   Dist: " + distance + " m")
+	}
+
+
+
 
 
 	

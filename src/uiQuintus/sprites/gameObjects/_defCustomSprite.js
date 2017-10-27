@@ -16,6 +16,21 @@ Q.SpriteCustom = class extends Q.Sprite {
 		this.stage.context.eventController.onAnyGameObjectTouch({target: this})
   }
 
+	onExamine() {
+		if (this.p.model) {
+			this.p.model.onExamine()
+		} else {
+			logger.log("You see: " + this.p.name)
+		}
+	}
+
+	getName() {
+		let result = ""
+		if (this.p.model)	result = this.p.model.getName()
+		else result = this.p.name
+		return result
+	}
+
 	linkModel(props) {
 		this.p.model = props.model
 		this.p.model.linkSprite({sprite: this})
@@ -33,7 +48,21 @@ Q.SpriteCustom = class extends Q.Sprite {
 	isCollidable() {
 		return this.p.isCollidable
 	}
-	
+
+	getType() {
+		let type = null
+		if (this.p.model) type = this.p.model.getType()
+		return type
+	}
+
+	getPointCoordinates(props) {
+		let coord = {
+			x: this.p.x,
+			y: this.p.y
+		}
+		return coord
+	}
+		
 	getGridCoordinates(props) {
 		let coord = {
 			x: Q.pointToTile(this.p.x),

@@ -188,8 +188,10 @@ class Generator {
 		
 		let control = props.control
 		if (!props.control) control = "ai"
+
+		console.log("control: " + control)
 		
-		let char = new Actor({id: id, name: props.name, control: "ai", special: special, assetId: props.assetId})
+		let char = new Actor({id: id, name: props.name, control: control, special: special, assetId: props.assetId})
 		
 		// char.print({special: true, health: true, attack: true, defense: true})
 		

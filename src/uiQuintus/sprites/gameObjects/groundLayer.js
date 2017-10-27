@@ -13,7 +13,12 @@ Q.SpriteGroundTile_1 = class extends Q.SpriteCustom {
 
   onTouch(col) {
 		super.onTouch(col)
-		this.stage.context.eventController.onEmptyTileTouch({ tile: this })
+		// this.stage.context.eventController.onEmptyTileTouch({ tile: this })
   }
+
+	getType() {
+		let type = "ground"
+		return type
+	}
 	
 }
