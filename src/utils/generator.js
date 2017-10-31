@@ -25,7 +25,7 @@ class Generator {
 		let name = chance.name()
 		let assets = ["human1Img", "human2Img"]
 		let assetId = chance.integer({min: 0, max: 1});
-		return this.generateActor({name: name,	assetId: assets[assetId] })
+		return this.generateActor({name: name,	assetId: assets[assetId], group: assetId })
 	}
 
 	generateActor(props) {

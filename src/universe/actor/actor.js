@@ -37,11 +37,11 @@ export class Actor extends GameObject {
 
 
 // SPECIAL
-import {Special} from './special.js'
+import {Special} from './modules/special.js'
 Actor.prototype.getSpecial = Special.getSpecial
 
 // Abilities
-import {Abilities} from './abilities.js'
+import {Abilities} from './modules/abilities.js'
 Actor.prototype.getBaseDamage = Abilities.getBaseDamage
 Actor.prototype.getCritChance = Abilities.getCritChance
 Actor.prototype.getCritMultiplier = Abilities.getCritMultiplier
@@ -50,7 +50,7 @@ Actor.prototype.getDT = Abilities.getDT
 
 
 // Combat actions
-import {CombatActions} from './combatActions.js'
+import {CombatActions} from './modules/combatActions.js'
 Actor.prototype.attackThrow = CombatActions.attackThrow
 Actor.prototype.dodgeThrow = CombatActions.dodgeThrow
 
