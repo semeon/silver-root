@@ -1,8 +1,14 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
+// Creatures
+import human1Img from 'graphics/creatures/human_001.png'
+import human2Img from 'graphics/creatures/human_002.png'
+
+
 // Player assets
-import playerImg from 'graphics/player/character_001.png'
+import player1Img from 'graphics/player/character_001.png'
+import player2Img from 'graphics/player/droid_r2.png'
 
 
 // Area Obect Assets - Generic
@@ -76,8 +82,8 @@ export class AssetLoader {
 		Q.sheet("GroundTile_1", Q.assets["groundTileImg"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
 		// Objects
-		Q.sheet("Bush_1", Q.assets["aoBush1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
-		Q.sheet("Rock_1",	Q.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("aoBush1Img", Q.assets["aoBush1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("aoRock1Img",	Q.assets["aoRock1Img"], { tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
 		// UI
 		Q.sheet("Marker", Q.assets["uiMarker"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
@@ -85,14 +91,19 @@ export class AssetLoader {
 		Q.sheet("PlayerHighlight", Q.assets["uiPlayerHighlight"], 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 
 		// Creatures
-		Q.sheet("Player", playerImg, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("player1Img", player1Img, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("player2Img", player2Img, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+
+		Q.sheet("human1Img", human1Img, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
+		Q.sheet("human2Img", human2Img, 	{ tilew: Q.CONST.tileSize, tileh: Q.CONST.tileSize });
 		
 		this.onFinish()
 	}
 
 
 	loadCommonAssets(props) {
-		Q.assets["playerImg"] = playerImg
+		Q.assets["player1Img"] = player1Img
+		Q.assets["player2Img"] = player2Img
 		
 		Q.assets["uiMarker"] = uiMarker1Img
 		Q.assets["uiPathStep"] = uiPathStep1Img
@@ -104,6 +115,9 @@ export class AssetLoader {
 		Q.assets["uiCursorInteract"] = uiCursorInteract
 		Q.assets["uiCursorSelect"] = uiCursorSelect
 		Q.assets["uiCursorTalk"] = uiCursorTalk
+
+		Q.assets["human1Img"] = human1Img
+		Q.assets["human2Img"] = human2Img
 	}
 	
 	loadGenericEnvAssets(props) {

@@ -41,7 +41,7 @@ export class Attack extends Action {
 			let dodge = self.target.dodgeThrow()
 			let damageTaken = 0
 			if (dodge && dodge.success) {
-				// nothing
+				logger.log( "The attack was dodged" )
 			} else {
 				damageTaken = self.target.receiveAttack({attack: attack, source: self.actor})
 			}

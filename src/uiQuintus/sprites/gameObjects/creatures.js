@@ -1,11 +1,11 @@
 import {logger} from 'logger'
 import {Q} from 'qObject'
 
-Q.PlayerSprite = class extends Q.SpriteCustom {
+Q.CreatureSprite = class extends Q.SpriteCustom {
 	constructor(props) {
 		let p = {
 			name: props.name,
-			sheet: "Player"
+			sheet: props.sheet
 		}
 		if (!p.isCollidable) p.isCollidable = true
 		super(p)

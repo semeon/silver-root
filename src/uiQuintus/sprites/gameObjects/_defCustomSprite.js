@@ -7,6 +7,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	constructor(p) {
 		if (!p) p = {}
 		if (!p.isCollidable) p.isCollidable = false
+		if (!p.isDestroyed) p.isDestroyed = false
 		super(p)
 		this.on("touch", this, "onTouch")
 	}
@@ -24,6 +25,13 @@ Q.SpriteCustom = class extends Q.Sprite {
 		}
 	}
 
+	onDestroy(){
+		if (this.p.isDestroyed) return
+		this.p.frame = 1
+		this.p.isCollidable = false
+		this.p.isDestroyed = true
+	}
+
 	getName() {
 		let result = ""
 		if (this.p.model)	result = this.p.model.getName()
@@ -37,7 +45,7 @@ Q.SpriteCustom = class extends Q.Sprite {
 	}
 
 	moveToTile(props) {
-		this.moveTo({ x: Q.tileToPoint( props.x ), y: Q.tileToPoint( props.y ) })
+		this.moveTo({ x: Q.tileToPoint(props.x), y: Q.tileToPoint(props.y) })
 	}
 
 	moveTo(props) {

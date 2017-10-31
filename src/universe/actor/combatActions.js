@@ -18,7 +18,7 @@ export let CombatActions = {
 		let dodge = {success: dice.rollBool(20)}
 
 		let message = ""
-		message += this.getName() + " performs dodge throw: "
+		message += this.getName() + " attepts a dodge throw: "
 		if (dodge.success) {
 			message += "success"
 		} else {

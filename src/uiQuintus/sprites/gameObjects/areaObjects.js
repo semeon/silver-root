@@ -16,13 +16,6 @@ Q.SpriteAreaObjectDefault = class extends Q.SpriteCustom {
 		// this.stage.context.eventController.onAreaObjectTouch({ areaObject: this })
 	}
 
-	onDestroy(){
-		if (this.p.model.isDestroyed()) return
-			
-		console.log("SPRITE ON DESTROY")
-		this.p.frame = 1
-		this.p.isCollidable = false
-	}
 }
 
 Q.SpriteBush_1 = class extends Q.SpriteAreaObjectDefault {

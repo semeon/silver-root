@@ -5,7 +5,7 @@ import {Q} from 'qObject'
 import './sprites/gameObjects/_defCustomSprite.js'
 import './sprites/gameObjects/groundLayer.js'
 import './sprites/gameObjects/areaObjects.js'
-import './sprites/gameObjects/player.js'
+import './sprites/gameObjects/creatures.js'
 
 import './sprites/userInterface/marker.js'
 import './sprites/userInterface/uiElements.js'

@@ -30,6 +30,9 @@ export class SceneBuilder {
 		let assets = Q.assets
 		let locData = this.session.currentLocation
 
+		console.log("locData: ")
+		console.dir(locData)
+
 		logger.log("Creating sprites instances..")
 
 		// Order is important for intercepting touch events!
@@ -38,13 +41,13 @@ export class SceneBuilder {
 		let marker = this.spriteFactory.createMarker()
 
 		// Player
-		let players = this.spriteFactory.createPlayers({players: this.session.getPlayers()})
+		let players = this.spriteFactory.createLocationObjects({data: this.session.getPlayers()})
 
 		// Other Creatures
-		// ...
+		let creatures = this.spriteFactory.createLocationObjects({ data: locData.creatures })
 
 		// Terrain Object
-		let terrain = this.spriteFactory.createTerrain({data: locData.terrain})
+		let terrain = this.spriteFactory.createLocationObjects({data: locData.terrain })
 		// console.dir(terrain)
 
 
@@ -58,10 +61,13 @@ export class SceneBuilder {
 			// Order is important for displaying the sprites!
 			for (let i=0; i<groundTiles.length; i++) 	stage.insert(groundTiles[i])
 			for (let i=0; i<terrain.length; i++) 	stage.insert(terrain[i])
-			stage.insert(marker)
+
+			for (let i=0; i<creatures.length; i++) 	stage.insert(creatures[i])
+
 			for (let i=0; i<players.length; i++) 	stage.insert(players[i])
 			for (let i=0; i<players.length; i++) 	stage.insert(players[i].p.hl)
 				
+			stage.insert(marker)
 
 
 			stage.add("viewport") //.follow(player)
@@ -98,18 +104,8 @@ export class SceneBuilder {
 						})
 			    }
 			})
-
-			Q.el.addEventListener('contextmenu', function(e) {
-				console.log("EVENT")
-			})
-
-
 		})
-
-
 	}
-
-
 	
 	startScene() {
 		logger.log("Starting the scene..")

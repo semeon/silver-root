@@ -21,63 +21,21 @@ export class SpriteFactory {
 		return result
 	}
 
-	
-	createTerrain(props)	{
-		let data = props.data
-		let result = []
-
-		for (let i=0; i<data.length; i++) {
-			let item = data[i]
-			let model = data[i]
-			
-			let name = model.name
-			let sprite
-			switch(name) {
-		    case "Bush":
-					sprite = new Q.SpriteBush_1()
-		      break
-
-		    case "Rock":
-					sprite = new Q.SpriteRock_1()
-		      break
-
-		    default:
-					sprite = null
-			}
-
+	createLocationObjects(props)	{
+		let sprites = []
+		for (let i=0; i<props.data.length; i++) {
+			let model = props.data[i]
+			let sprite = new Q.CreatureSprite({name: model.name, sheet: model.assetId})
 			sprite.linkModel({model: model})
-			sprite.moveTo({
-				x: Q.tileToPoint(model.getGridCoordinates().x), 
-				y: Q.tileToPoint(model.getGridCoordinates().y)
-			})
-
-			result.push(sprite)
-		}
-		return result
-	}
-
-	createPlayers(props)	{
-
-		let players = []
-
-		for (let i=0; i<props.players.length; i++) {
-			let playerModel = props.players[i]
-			let playerSprite = new Q.PlayerSprite({name: playerModel.name})
-			playerSprite.linkModel({model: playerModel})
-
-			let x = playerSprite.p.model.getGridCoordinates().x
-			let y = playerSprite.p.model.getGridCoordinates().y
-			playerSprite.p.x = Q.tileToPoint(x)
-			playerSprite.p.y = Q.tileToPoint(y)
-
+			sprite.p.x = Q.tileToPoint(model.getGridCoordinates().x)
+			sprite.p.y = Q.tileToPoint(model.getGridCoordinates().y)
 			let hl = new Q.SpritePlayerHighlight()
-			playerSprite.linkHighlight({hl: hl})
+			sprite.linkHighlight({hl: hl})
 
-			players.push(playerSprite)
+			sprites.push(sprite)
 		}
-		return players
+		return sprites
 	}
-
 
 	createMarker(props)	{
 		let marker = new Q.SpriteMarker()

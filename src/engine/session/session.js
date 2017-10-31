@@ -30,14 +30,14 @@ export class GameSession {
 		let pcGroove = generator.generateActor({
 			name: "Groove", 
 			control: "player",	
-			assetId: "droid"
+			assetId: "player1Img"
 		})
 		this.players.push(pcGroove)
 
 		let pcMonkeyWrench = generator.generateActor({
 			name: "Monkey Wrench", 
 			control: "player",	
-			assetId: "droid"
+			assetId: "player2Img"
 		})
 		this.players.push(pcMonkeyWrench)
 

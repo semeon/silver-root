@@ -14,19 +14,72 @@ class Generator {
 	// =============================
 		
 	generateBush(props) {
-		return this.generateTerrainObject({name: "Bush",	assetId: "desert_bush_01", hp: 10})
+		return this.generateTerrainObject({name: "Bush",	assetId: "aoBush1Img", hp: 10})
 	}
 
 	generateRock(props) {
-		return this.generateTerrainObject({name: "Rock",	assetId: "desert_rock", hp: 1000})
+		return this.generateTerrainObject({name: "Rock",	assetId: "aoRock1Img", hp: 1000})
 	}
-
 
 	generateCreature(props) {
 		let name = chance.name()
-		return this.generateActor({name: name,	assetId: "droid"})
+		let assets = ["human1Img", "human2Img"]
+		let assetId = chance.integer({min: 0, max: 1});
+		return this.generateActor({name: name,	assetId: assets[assetId] })
 	}
 
+	generateActor(props) {
+		let id
+		if (props && props.id) {
+			id = props.id
+		}	 else {
+			id = "actor-"
+			id += Date.now()
+			id += "-"
+			id += this.getCount()
+		}
+
+		let special = {}
+		special.S = dice.rollD10().value
+		special.P = dice.rollD10().value
+		special.E = dice.rollD10().value
+		special.C = dice.rollD10().value
+		special.I = dice.rollD10().value
+		special.A = dice.rollD10().value
+		special.L = dice.rollD10().value
+		
+		let control = props.control
+		if (!props.control) control = "ai"
+
+		let char = new Actor({id: id, name: props.name, control: control, special: special, assetId: props.assetId})
+		// char.print({special: true, health: true, attack: true, defense: true})
+		return char
+	}
+
+
+	generateTerrainObject(props) {
+
+		let id
+		if (props && props.id) {
+			id = props.id
+		}	 else {
+			id = "terrain-"
+			id += Date.now()
+			id += "-"
+			id += this.getCount()
+		}
+
+		let hp
+		if (props && props.hp) {
+			hp = props.hp
+		}	else {
+			hp = dice.rollD10(5).value
+		}
+		
+		let object = new TerrainObject({id: id, name: props.name, hpMax: props.hp, assetId: props.assetId})
+		
+		return object
+	}
 
 	// =============================
 
@@ -111,7 +164,7 @@ class Generator {
 						terrain.push(obj)
 
 					// actor?
-					} else if (dice.rollBool(5)) { // creature?
+					} else if (dice.rollBool(2)) { // creature?
 						let obj = this.generateCreature()
 						obj.setGridCoordinates({x: x, y: y})
 						creatures.push(obj)
@@ -141,62 +194,10 @@ class Generator {
 	}
 
 
-	generateTerrainObject(props) {
-
-		let id
-		if (props && props.id) {
-			id = props.id
-		}	 else {
-			id = "terrain-"
-			id += Date.now()
-			id += "-"
-			id += this.getCount()
-		}
-
-		let hp
-		if (props && props.hp) {
-			hp = props.hp
-		}	else {
-			hp = dice.rollD10(5).value
-		}
-		
-		let object = new TerrainObject({id: id, name: props.name, hpMax: props.hp, assetId: props.assetId})
-		
-		return object
-	}
 
 
-	generateActor(props) {
-		let id
-		if (props && props.id) {
-			id = props.id
-		}	 else {
-			id = "actor-"
-			id += Date.now()
-			id += "-"
-			id += this.getCount()
-		}
 
-		let special = {}
-		special.S = dice.rollD10().value
-		special.P = dice.rollD10().value
-		special.E = dice.rollD10().value
-		special.C = dice.rollD10().value
-		special.I = dice.rollD10().value
-		special.A = dice.rollD10().value
-		special.L = dice.rollD10().value
-		
-		let control = props.control
-		if (!props.control) control = "ai"
 
-		console.log("control: " + control)
-		
-		let char = new Actor({id: id, name: props.name, control: control, special: special, assetId: props.assetId})
-		
-		// char.print({special: true, health: true, attack: true, defense: true})
-		
-		return char
-	}
 
 }
 
