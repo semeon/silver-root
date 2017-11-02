@@ -1,6 +1,7 @@
 import {dice} from 'dice'
 import {Actor} from '../universe/actor/actor.js'
 import {TerrainObject} from '../universe/items/terrainObject.js'
+import {Location} from '../universe/location/location.js'
 
 
 var Chance = require('chance')
@@ -24,8 +25,9 @@ class Generator {
 	generateCreature(props) {
 		let name = chance.name()
 		let assets = ["human1Img", "human2Img"]
-		let assetId = chance.integer({min: 0, max: 1});
-		return this.generateActor({name: name,	assetId: assets[assetId], group: assetId })
+		let groupIds = ["human1Img", "human2Img"]
+		let num = chance.integer({min: 0, max: 1});
+		return this.generateActor({name: name,	assetId: assets[num], group: groupIds[num] })
 	}
 
 	generateActor(props) {
@@ -101,94 +103,35 @@ class Generator {
 			id += this.getCount()
 		}
 		
-		let areaSize = "L"
-		
-		let height
-		let width
-
-		switch(areaSize) {
-	    case "XS":
-				width = 12
-				height = 9
-	      break
-				
-	    case "S":
-				width = 16
-				height = 12
-        break
-
-	    case "M":
-				width = 20
-				height = 15
-        break
-
-	    case "L":
-				width = 24
-				height = 18
-        break
-
-	    default:
-				width = 20
-				height = 15
-		}
-		
 		let name = chance.city()
 
-		let allObjects = []
-
-
-		let collisionObjects = []
-
-		let terrain = []
-		let creatures = []
-		let items = []
-		let emptyGrid = []
+		let loc = new Location({
+			id: id,
+			name: name,
+			environment: "desert",
+			areaSize: "L"
+		})
 				
-    for (var y = 0; y < height; y++) {
-
-			emptyGrid[y] = []
-			
-      for (var x = 0; x < width; x++)  {
-
-				emptyGrid[y][x] = 0
+    for (var y = 0; y < loc.height; y++) {
+      for (var x = 0; x < loc.width; x++)  {
 				
 				if (x>2) {
-					if (dice.rollBool(10)) {   // terrain?
-						let obj = {}
-						if (dice.rollBool(20)) {   // rock?
-							obj = this.generateRock()
-						} else {
-							obj = this.generateBush()							
-						}
+					// Add Terrain
+					let obj = {}
+					if (dice.rollBool(10)) {
+						if (dice.rollBool(20)) obj = this.generateRock()
+							else 	obj = this.generateBush()							
 						obj.setGridCoordinates({x: x, y: y})
-						terrain.push(obj)
+						loc.addGameObject({type: "terrain", object: obj})
 
-					// actor?
 					} else if (dice.rollBool(2)) { // creature?
-						let obj = this.generateCreature()
+						obj = this.generateCreature()
 						obj.setGridCoordinates({x: x, y: y})
-						creatures.push(obj)
+						loc.addGameObject({type: "creatures", object: obj})
 					}
 				} 
       }
     }		
-		
-		let loc = {
-			id: id,
-			name: name,
-			
-			environment: "desert",
-			areaSize: areaSize,
-			
-			height: height,
-			width: width,
-			
-			terrain: terrain,
-			creatures: creatures,
-			items: items,
-			
-			emptyGrid: emptyGrid
-		}
 		
 		return loc
 	}
