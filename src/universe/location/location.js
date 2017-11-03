@@ -18,6 +18,7 @@ export class Location {
 		this.emptyGrid = []
 		
 		this.groups = {}
+		this.playerGroup = {}
 		
 		this.init()
 	}
@@ -25,6 +26,7 @@ export class Location {
 	init() {
 		this.setSize({size: this.areaSize})
 		this.buildEmptyGrid()
+		this.playerGroup = this.cerateNewGroup({id: "player"})
 	}
 	
 	addGameObject(props) {
@@ -43,9 +45,16 @@ export class Location {
 		}		
 	}
 	
+	addPlayer(props) {
+		this.playerGroup.addMember({member: props.player})
+	}
 	
 	getGroups(props) {
 		return this.groups
+	}
+
+	getPlayerGroup(props) {
+		return this.playerGroup
 	}
 
 	getGroupById(props) {

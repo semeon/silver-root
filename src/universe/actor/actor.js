@@ -18,7 +18,7 @@ export class Actor extends GameObject {
 		this.control = props.control
 		this.special = props.special
 		this.hp = hpMax
-		
+		this.group = null
 		this.defaultAttackDistance = 1.5
 	}
 	
@@ -53,6 +53,10 @@ Actor.prototype.getDT = Abilities.getDT
 import {CombatActions} from './modules/combatActions.js'
 Actor.prototype.attackThrow = CombatActions.attackThrow
 Actor.prototype.dodgeThrow = CombatActions.dodgeThrow
+
+// // Combat Teams
+// import {CombatTeams} from './modules/combatTeams.js'
+
 
 
 // Debug

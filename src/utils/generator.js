@@ -24,22 +24,17 @@ class Generator {
 
 	generateCreature(props) {
 		let name = chance.name()
-		let assets = ["human1Img", "human2Img"]
-		let groupIds = ["human1Img", "human2Img"]
+		let assetIds = ["human1Img", "human2Img"]
+		let groupIds = ["raiders", "locals"]
 		let num = chance.integer({min: 0, max: 1});
-		return this.generateActor({name: name,	assetId: assets[num], group: groupIds[num] })
+		return this.generateActor({name: name,	assetId: assetIds[num], groupId: groupIds[num] })
 	}
 
-	generateActor(props) {
+	generateChar(props) {
+
 		let id
-		if (props && props.id) {
-			id = props.id
-		}	 else {
-			id = "actor-"
-			id += Date.now()
-			id += "-"
-			id += this.getCount()
-		}
+		if (props && props.id) id = props.id
+			else id = "actor-" + Date.now() + "-" + this.getCount() 
 
 		let special = {}
 		special.S = dice.rollD10().value
@@ -54,8 +49,15 @@ class Generator {
 		if (!props.control) control = "ai"
 
 		let char = new Actor({id: id, name: props.name, control: control, special: special, assetId: props.assetId})
-		// char.print({special: true, health: true, attack: true, defense: true})
 		return char
+	}
+
+	generateActor(props) {
+		let actor = {
+			char: this.generateChar(props),
+			groupId: props.groupId
+		}
+		return actor
 	}
 
 
@@ -94,24 +96,25 @@ class Generator {
 	generateLocation(props) {
 		
 		let id
-		if (props && props.id) {
-			id = props.id
-		} else {
-			id = "map-"
-			id += Date.now()
-			id += "-"
-			id += this.getCount()
-		}
+		if (props && props.id) id = props.id
+			else id = "map-" + Date.now() + "-" + this.getCount()
 		
-		let name = chance.city()
-
 		let loc = new Location({
 			id: id,
-			name: name,
+			name: chance.city(),
 			environment: "desert",
 			areaSize: "L"
 		})
-				
+
+
+		let raiders = loc.cerateNewGroup({id: "raiders"})
+		let locals = loc.cerateNewGroup({id: "locals"})
+
+		raiders.addEnemy({ group: locals })
+		raiders.addEnemy({ group: loc.getPlayerGroup() })
+		locals.addEnemy({ group: raiders })
+		
+		
     for (var y = 0; y < loc.height; y++) {
       for (var x = 0; x < loc.width; x++)  {
 				
@@ -125,9 +128,15 @@ class Generator {
 						loc.addGameObject({type: "terrain", object: obj})
 
 					} else if (dice.rollBool(2)) { // creature?
-						obj = this.generateCreature()
+						let actor = this.generateCreature()
+						obj = actor.char
 						obj.setGridCoordinates({x: x, y: y})
 						loc.addGameObject({type: "creatures", object: obj})
+						let group = loc.getGroupById({id: actor.groupId})
+						if (!group) group = loc.cerateNewGroup({id: actor.groupId})
+						
+						group.addMember({member: actor.char})
+						
 					}
 				} 
       }

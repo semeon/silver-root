@@ -27,14 +27,14 @@ export class GameSession {
 	generatePlayers(props) {
 		this.players = []
 
-		let pcGroove = generator.generateActor({
+		let pcGroove = generator.generateChar({
 			name: "Groove", 
 			control: "player",	
 			assetId: "player1Img"
 		})
 		this.players.push(pcGroove)
 
-		let pcMonkeyWrench = generator.generateActor({
+		let pcMonkeyWrench = generator.generateChar({
 			name: "Monkey Wrench", 
 			control: "player",	
 			assetId: "player2Img"
